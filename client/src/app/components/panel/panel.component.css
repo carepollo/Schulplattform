@@ -1,0 +1,41 @@
+mat-sidenav-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.sideBar {
+    background-color: rgb(34, 34, 34);
+}
+
+.sideBar * {
+    color: white;
+    fill: white;
+}
+
+.sideBar h4{
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 35px;
+}
+
+.header {
+    height: auto;
+}
+.spacer {
+    flex: 1 1 auto;
+}
+
+.profilepic {
+    border-radius: 50%;
+    height: 5vh;
+}
+
+.maincontent {
+    overflow-y: scroll;
+    height: 92vh;
+    background-color: rgb(223, 222, 222);
+}

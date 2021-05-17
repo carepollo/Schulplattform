@@ -1,0 +1,39 @@
+.badgesSection {
+    display: inline-table;
+}
+.addBadge {
+    width: 25%;
+}
+.editBadge {
+    width: 75%;
+    height: 400px;
+    overflow: auto;
+}
+
+.badgesSection mat-form-field {
+    display: block;
+}
+
+table {
+    width: 100%;
+}
+
+table .badgesActionsColumn {
+    display: content;
+}
+
+table .badgesActionsColumn button{
+    transform: scale(0.8);
+}
+
+@media screen and (max-width: 990px){
+    .badgesForm {
+        width: 100%;
+    }
+}
+
+.gradesForm {
+    display: grid;
+    grid: max-content / 25% 25% 25% 25%;
+}
+

@@ -1,0 +1,121 @@
+  
+<mat-card class="card">
+    <mat-tab-group>
+
+        <mat-tab label="Logros">
+            <form #addBadge class="badgesSection p-1 addBadge">
+                <mat-form-field appearance="outline">
+                    <mat-label>Grado</mat-label>
+                    <mat-select (selectionChange)="unlockSelector(badgesForm.grade)" (blur)="unlockSend()" [(ngModel)]="badgesForm.grade" name="grade">
+                        <mat-option *ngFor="let option of gradesList" [value]="option">{{option}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Asignatura</mat-label>
+                    <mat-select [disabled]="disableAssignature" [(ngModel)]="badgesForm.assignature" name="assignature" (blur)="unlockSend()">
+                        <mat-option *ngFor="let option of assignatureList" [value]="option.label">{{option.label}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo de Juicio</mat-label>
+                    <mat-select [(ngModel)]="badgesForm.level" name="level" (blur)="unlockSend()">
+                        <mat-option *ngFor="let option of judgeLevelList" [value]="option">{{option}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Detalle</mat-label>
+                    <textarea matInput rows="5" [(ngModel)]="badgesForm.description" name="description" (blur)="unlockSend()"></textarea>
+                </mat-form-field>
+                <button mat-raised-button color="accent" [disabled]="disableAddBadge">Agregar</button>
+                <!-- <button mat-raised-button color="accent" [disabled]="disableAddBadge" (click)="addBadge()">Agregar</button> -->
+            </form>
+            <div #listBadge class="badgesSection p-1 editBadge">
+                <mat-form-field appearance="outline">
+                    <mat-label>Buscar Logro por Materia</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                <table mat-table [dataSource]="currentBadges" class="mat-elevation-z2">
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> <b>ID</b> </th>
+                        <td mat-cell *matCellDef="let badge"> <b [class]="'badge' + badge.id">{{badge.id}}</b> </td>
+                    </ng-container>
+                    <ng-container matColumnDef="grade">
+                        <th mat-header-cell *matHeaderCellDef> <b>Grado</b> </th>
+                        <td mat-cell *matCellDef="let badge" [class]="'badge' + badge.id"> {{badge.grade}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="level">
+                        <th mat-header-cell *matHeaderCellDef> <b>Juicio</b> </th>
+                        <td mat-cell *matCellDef="let badge" [class]="'badge' + badge.id"> {{badge.level}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="assignature">
+                        <th mat-header-cell *matHeaderCellDef> <b>Materia</b> </th>
+                        <td mat-cell *matCellDef="let badge" [class]="'badge' + badge.id"> {{badge.assignature}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef> <b>Descripción</b> </th>
+                        <td mat-cell *matCellDef="let badge">
+                            <mat-form-field>
+                                <textarea matInput rows="3" [class]="'badge' + badge.id"> {{badge.description}} </textarea>
+                            </mat-form-field>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="actions" class="badgesActionsColumn">
+                        <th mat-header-cell *matHeaderCellDef> <b>Acciones</b> </th>
+                        <td mat-cell *matCellDef="let badge">
+                            <button mat-mini-fab color="accent" class="mx-1" (click)="updateBadge('badge' + badge.id)">
+                                <mat-icon>done</mat-icon>
+                            </button>
+                            <button mat-mini-fab color="warn" class="mx-1" (click)="deleteBadge(badge.id)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="columnTitles"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnTitles;"></tr>
+                </table>
+            </div>
+
+        </mat-tab>
+
+        <mat-tab label="Notas">
+            <div class="gradesForm">
+                <span><b>Sede:</b> San José</span>
+                <span><b>Jornada:</b> Mañana</span>
+                <mat-form-field appearance="outline">
+                    <mat-label>Grupo</mat-label>
+                    <mat-select>
+                        <mat-option>segundo 2</mat-option>
+                    </mat-select>
+                </mat-form-field>  
+                <mat-form-field appearance="outline">
+                    <mat-label>Asignatura</mat-label>
+                    <mat-select>
+                        <mat-option>matemáticas</mat-option>
+                    </mat-select>
+                </mat-form-field>    
+            </div>
+            <button mat-raised-button color="accent">Generar</button>
+            
+            <!-- <table mat-table class="d-block mat-elevation-z2">
+                estudiantes por asignatura con sus notas
+            </table> -->
+
+        </mat-tab>
+
+        <mat-tab label="Observador">
+            <mat-form-field appearance="outline" class="d-block">
+                <mat-label>Grupo</mat-label>
+                <mat-select>
+                    <mat-option>Segundo 2</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="accent">Generar</button>
+
+            <!-- <table mat-table class="d-block mat-elevation-z2">
+                tabla de estudiantes por grupo, donde se selecciona uno para agregarle su observacion
+            </table> -->
+
+        </mat-tab>
+
+    </mat-tab-group>
+</mat-card>

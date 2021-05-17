@@ -1,0 +1,61 @@
+<mat-sidenav-container>
+
+    <!--Sidebar-->
+    <mat-sidenav mode="push" #sideBar class="sideBar" >
+        <h4>{{userlogged.type}}</h4>
+        <mat-selection-list [multiple]="false">
+            <mat-list-option *ngFor="let option of panelOptions" (click)="changeView(option.componentName)">
+                <mat-icon mat-list-icon>{{option.icon}}</mat-icon>
+                {{option.content}}
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-sidenav>
+    
+    <!--Header-->
+    <mat-sidenav-content class="header">
+
+        <mat-toolbar color="primary" class="header p-2">
+            <button mat-icon-button (click)="sideBar.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>{{appname}}</span>
+            <span class="spacer"></span>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <mat-icon>account_circle</mat-icon>
+                        {{userlogged.username}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>
+                    <mat-list dense>
+                        <mat-list-item>
+                            <button mat-button (click)="changeView('profile')">
+                                <mat-icon>manage_accounts</mat-icon>
+                                Perfil
+                            </button>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <button mat-button (click)="escapeSystem()">
+                                <mat-icon>logout</mat-icon>
+                                Salir
+                            </button>
+                        </mat-list-item>
+                    </mat-list>
+                </p>
+            </mat-expansion-panel>
+
+        </mat-toolbar>
+
+        <!--Body-->
+        <div class="maincontent p-3" [ngSwitch]="currentView">
+            <app-view-profile *ngSwitchCase="'profile'" [userdata]="userlogged"></app-view-profile>
+            <app-view-academic *ngSwitchCase="'academic'" [userdata]="userlogged"></app-view-academic>
+            <app-view-reports *ngSwitchCase="'reports'"></app-view-reports>
+            <app-view-elections *ngSwitchCase="'elections'"></app-view-elections>
+        </div>
+        
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

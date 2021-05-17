@@ -1,0 +1,24 @@
+
+<div class="background">
+    <mat-card class="form p-5">
+      <mat-card-title>
+        <b class="h4 pb-3">Ingresar</b>
+      </mat-card-title>
+      <mat-card-content>
+        <form #login>
+            <mat-form-field class="full-width-input">
+              <input matInput type="text" [(ngModel)]="sentData.username" name="username" placeholder="Usuario" class="pb-2">
+            </mat-form-field>
+            <mat-form-field class="full-width-input">
+              <input matInput matInput [type]="visible ? 'password' : 'text'" [(ngModel)]="sentData.password" name="password" placeholder="Contraseña" class="pb-2">
+              <button mat-icon-button matSuffix (click)="visible = !visible" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="visible">
+                <mat-icon>{{visible ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" form="login" (click)="tryLogin(sentData)" form="login">Login</button>
+      </mat-card-actions>
+    </mat-card>
+</div>

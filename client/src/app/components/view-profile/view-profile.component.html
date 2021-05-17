@@ -1,0 +1,183 @@
+<form #profileData>
+
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title>Datos de usuario</mat-card-title>
+            <mat-card-subtitle>{{userdata.type}}</mat-card-subtitle>
+            <img mat-card-avatar src="../../../assets/defaultpfp.webp">
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field appearance="fill" class="mx-2">
+                <mat-label>Nombre de usuario</mat-label>
+                <input *ngIf="userdata.type != 'Coordinador'; else inputUsername" matInput disabled [value]="userdata.username" [(ngModel)]="userdata.username" name="username">
+                <ng-template #inputUsername>
+                    <input matInput [value]="userdata.username" [(ngModel)]="userdata.username" name="username">
+                </ng-template>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="mx-2">
+                <mat-label>Contraseña</mat-label>
+                <input matInput [value]="userdata.password" [type]="visible ? 'password' : 'text'" [(ngModel)]="userdata.password" name="password">
+                <button mat-icon-button matSuffix (click)="visible = !visible" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="visible">
+                    <mat-icon>{{visible ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>    
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title>Datos personales</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Número de Identificación</mat-label>
+                <input matInput [value]="userdata.person.id_person" [(ngModel)]="userdata.person.id_person" name="id_person">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Tipo de Identificación</mat-label>
+                <mat-select [(ngModel)]="userdata.person.id_type" name="id_type">
+                    <mat-option [value]="userdata.person.id_type">{{userdata.person.id_type}}</mat-option>
+                    <mat-option value="C.E.">C.E.</mat-option>
+                    <mat-option value="T.I.">T.I</mat-option>
+                    <mat-option value="R.C.">R.C.</mat-option>
+                    <mat-option value="PEP">PEP.</mat-option>
+                    <mat-option value="NET">NET.</mat-option>          
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Nombres</mat-label>
+                <input matInput [value]="userdata.person.names" [(ngModel)]="userdata.person.names" name="names">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Apellidos</mat-label>
+                <input matInput [value]="userdata.person.lastnames" [(ngModel)]="userdata.person.lastnames" name="lastnames">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Departamento de expedición</mat-label>
+                <mat-select [(ngModel)]="userdata.person.zone_expedition.value" name="zone_expedition" (selectionChange)="unlockSelector('zone_expedition')">
+                    <mat-option [value]="userdata.person.zone_expedition.value">{{userdata.person.zone_expedition.label}}</mat-option>
+                    <ng-container *ngFor="let option of optionsZone">
+                        <mat-option *ngIf="option.value != userdata.person.zone_expedition.value" [value]="option.value">{{option.label}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Ciudad de expedición</mat-label>
+                <mat-select [(ngModel)]="userdata.person.city_expedition.value" name="city_expedition" [disabled]="disableCityExpedition">
+                    <mat-option [value]="userdata.person.city_expedition.value">{{userdata.person.city_expedition.label}}</mat-option>
+                    <ng-container *ngIf="!disableCityExpedition">
+                        <mat-option *ngFor="let option of optionsCity" [value]="option.value">{{option.label}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>RH</mat-label>
+                <mat-select [(ngModel)]="userdata.person.rh" name="rh">
+                    <mat-option [value]="userdata.person.rh">{{userdata.person.rh}}</mat-option>
+                    <mat-option value="A+">A+</mat-option>
+                    <mat-option value="A-">A-</mat-option>
+                    <mat-option value="B+">B+</mat-option>
+                    <mat-option value="B-">B-</mat-option>
+                    <mat-option value="O+">O+</mat-option>
+                    <mat-option value="O-">O-</mat-option>
+                    <mat-option value="AB+">AB+</mat-option>
+                    <mat-option value="AB-">AB-</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Salud</mat-label>
+                <mat-select [(ngModel)]="userdata.person.health" name="health">
+                    <mat-option [value]="userdata.person.health">{{userdata.person.health}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Escalafón</mat-label>
+                <mat-select [(ngModel)]="userdata.person.level" name="level">
+                    <mat-option [value]="userdata.person.level">{{userdata.person.level}}</mat-option>
+                    <mat-option value="1A">1A</mat-option>
+                    <mat-option value="1B">1B</mat-option>
+                    <mat-option value="1C">1C</mat-option>
+                    <mat-option value="1D">1D</mat-option>
+                    <mat-option value="2A">2A</mat-option>
+                    <mat-option value="2B">2B</mat-option>
+                    <mat-option value="2C">2C</mat-option>
+                    <mat-option value="3A">3A</mat-option>
+                    <mat-option value="3B">3B</mat-option>
+                    <mat-option value="3C">3C</mat-option>
+                    <mat-option value="3D">3D</mat-option>
+                    <mat-option value="SN">SN</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Nivel de estudio</mat-label>
+                <mat-select [(ngModel)]="userdata.person.study" name="study">
+                    <mat-option [value]="userdata.person.study">{{userdata.person.study}}</mat-option>
+                    <mat-option value="Normalista superior">Normalista superior</mat-option>
+                    <mat-option value="Tecnólogo superior">Tecnólogo superior</mat-option>
+                    <mat-option value="Tecnólogo en educación">Tecnólogo en educación</mat-option>
+                    <mat-option value="Licenciado">Licenciado</mat-option>
+                    <mat-option value="Profesional no licenciado">Profesional no licenciado</mat-option>
+                    <mat-option value="Especialización">Especialización</mat-option>
+                    <mat-option value="Maestría">Maestría</mat-option>
+                    <mat-option value="Doctorado">Doctorado</mat-option>          
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Departamento de residencia</mat-label>
+                <mat-select [(ngModel)]="userdata.person.zone_lives.value" name="zone_lives" (selectionChange)="unlockSelector('zone_lives')">
+                    <mat-option [value]="userdata.person.zone_lives.value">{{userdata.person.zone_lives.label}}</mat-option>
+                    <ng-container *ngFor="let option of optionsZone">
+                        <mat-option *ngIf="option.value != userdata.person.zone_lives.value" [value]="option.value">{{option.label}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Ciudad de residencia</mat-label>
+                <mat-select [(ngModel)]="userdata.person.city_lives.value" name="city_lives" [disabled]="disableCityLives">
+                    <mat-option [value]="userdata.person.city_lives.value">{{userdata.person.city_lives.label}}</mat-option>
+                    <ng-container *ngIf="!disableCityLives">
+                        <mat-option *ngFor="let option of optionsCity" [value]="option.value">{{option.label}}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Dirección</mat-label>
+                <input matInput [value]="userdata.person.address" type="address" [(ngModel)]="userdata.person.address" name="address">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Celular</mat-label>
+                <input matInput [value]="userdata.person.phone" type="tel" [(ngModel)]="userdata.person.phone" name="phone">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Correo</mat-label>
+                <input matInput [value]="userdata.person.email" type="email" [(ngModel)]="userdata.person.email" name="email">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Sede</mat-label>
+                <mat-select [(ngModel)]="userdata.person.site" name="site">
+                    <mat-option [value]="userdata.person.site">{{userdata.person.site}}</mat-option>
+                    <mat-option value="Cortijo">Cortijo</mat-option>
+                    <mat-option value="Corzo">Corzo</mat-option>
+                    <mat-option value="María Teresa Ortíz">María Teresa Ortíz</mat-option>
+                    <mat-option value="María Teresa Ortíz nueva">María Teresa Ortíz nueva</mat-option>
+                    <mat-option value="Principal">Principal</mat-option>
+                    <mat-option value="San José">San José</mat-option>
+                    <mat-option value="Serrezuela">Serrezuela</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mx-2">
+                <mat-label>Jornada</mat-label>
+                <mat-select [(ngModel)]="userdata.person.scheme" name="scheme">
+                    <mat-option [value]="userdata.person.scheme">{{userdata.person.scheme}}</mat-option>
+                    <mat-option value="Mañana">Mañana</mat-option>
+                    <mat-option value="Tarde">Tarde</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card">
+        <button mat-raised-button color="accent" type="submit" form="profileData" (click)="updateProfileData(userdata)">Salvar Cambios</button>
+    </mat-card>
+</form>
