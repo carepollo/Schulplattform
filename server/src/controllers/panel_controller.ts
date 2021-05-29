@@ -126,33 +126,6 @@ class PanelController {
         }
     }
 
-    public async getBadgesTable(request:Request, response:Response) {
-        const {table} = request.params
-        let query = ""
-        switch (table) {
-            case 'logros':
-                query = "SELECT id, grado_logro as grade, nivel as level, descripcion as description, materia as assignature FROM logros"
-                break;
-        }
-        try {
-            const badgesTable = await link_db.query(query)
-            response.json(badgesTable)
-        }
-        catch (error) {
-            response.send("error: " + error)
-        }
-    }
-
-    public async updateBadgeData(request:Request, response:Response){
-        try{
-            let query = `UPDATE logros SET descripcion = '${request.body.description}' WHERE id = ${request.body.id}`
-            let update = await link_db.query(query)
-            response.json(update)
-        }
-        catch(err) {
-            response.json(err)
-        }
-    }
 }
 
 export const panelController = new PanelController();

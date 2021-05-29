@@ -12,8 +12,6 @@ class PanelRoutes {
         this.router.post('/userprofile/user', panel_controller_1.panelController.updateUserData);
         this.router.post('/userprofile/person', panel_controller_1.panelController.updatePersonData);
         this.router.post('/userprofile/selector', panel_controller_1.panelController.listOption);
-        this.router.get('/academic/badges/:table', panel_controller_1.panelController.getBadgesTable);
-        this.router.post('/academic/badge/update', panel_controller_1.panelController.updateBadgeData);
     }
 }
 const panelRoutes = new PanelRoutes();

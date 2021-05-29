@@ -138,35 +138,5 @@ class PanelController {
             }
         });
     }
-    getBadgesTable(request, response) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { table } = request.params;
-            let query = "";
-            switch (table) {
-                case 'logros':
-                    query = "SELECT id, grado_logro as grade, nivel as level, descripcion as description, materia as assignature FROM logros";
-                    break;
-            }
-            try {
-                const badgesTable = yield connection_1.default.query(query);
-                response.json(badgesTable);
-            }
-            catch (error) {
-                response.send("error: " + error);
-            }
-        });
-    }
-    updateBadgeData(request, response) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let query = `UPDATE logros SET descripcion = '${request.body.description}' WHERE id = ${request.body.id}`;
-                let update = yield connection_1.default.query(query);
-                response.json(update);
-            }
-            catch (err) {
-                response.json(err);
-            }
-        });
-    }
 }
 exports.panelController = new PanelController();
