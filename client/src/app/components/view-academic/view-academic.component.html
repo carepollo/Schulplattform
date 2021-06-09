@@ -6,48 +6,60 @@
             <form #addBadge class="badgesSection p-1 addBadge">
                 <mat-form-field appearance="outline">
                     <mat-label>Grado</mat-label>
-                    <mat-select (selectionChange)="unlockSelector(badgesForm.grade)" (blur)="unlockSend()" [(ngModel)]="badgesForm.grade" name="grade">
+                    <mat-select (selectionChange)="unlockSelector('dep_grados_materia', badgesForm.grade, 'badges')" (blur)="unlockSend(badgesForm, 'badges')" [(ngModel)]="badgesForm.grade" name="grade">
                         <mat-option *ngFor="let option of gradesList" [value]="option">{{option}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Asignatura</mat-label>
-                    <mat-select [disabled]="disableAssignature" [(ngModel)]="badgesForm.assignature" name="assignature" (blur)="unlockSend()">
+                    <mat-select [disabled]="disableAssignature" [(ngModel)]="badgesForm.assignature" name="assignature" (blur)="unlockSend(badgesForm, 'badges')">
                         <mat-option *ngFor="let option of assignatureList" [value]="option.label">{{option.label}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Tipo de Juicio</mat-label>
-                    <mat-select [(ngModel)]="badgesForm.level" name="level" (blur)="unlockSend()">
+                    <mat-select [(ngModel)]="badgesForm.level" name="level" (blur)="unlockSend(badgesForm, 'badges')">
                         <mat-option *ngFor="let option of judgeLevelList" [value]="option">{{option}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Detalle</mat-label>
-                    <textarea matInput rows="5" [(ngModel)]="badgesForm.description" name="description" (blur)="unlockSend()"></textarea>
+                    <textarea matInput rows="5" [(ngModel)]="badgesForm.description" name="description" (blur)="unlockSend(badgesForm, 'badges')"></textarea>
                 </mat-form-field>
                 <button mat-raised-button color="accent" [disabled]="disableAddBadge" (click)="insertBadge()">Agregar</button>
             </form>
             <div #listBadge class="badgesSection p-1 editBadge">
                 <table mat-table [dataSource]="currentBadges" class="mat-elevation-z2">
                     <ng-container matColumnDef="id">
-                        <th mat-header-cell *matHeaderCellDef> <b>ID Logro</b> </th>
-                        <td mat-cell *matCellDef="let badge"> <b [class]="'badge' + badge.id">{{badge.id}}</b> </td>
+                        <th mat-header-cell *matHeaderCellDef>
+                            <b>ID Logro</b>
+                        </th>
+                        <td mat-cell *matCellDef="let badge">
+                            <b [class]="'badge' + badge.id">{{badge.id}}</b>
+                        </td>
                     </ng-container>
                     <ng-container matColumnDef="grade">
-                        <th mat-header-cell *matHeaderCellDef> <b>Grado</b> </th>
+                        <th mat-header-cell *matHeaderCellDef>
+                            <b>Grado</b>
+                        </th>
                         <td mat-cell *matCellDef="let badge" [class]="'badge' + badge.id">{{badge.grade}}</td>
                     </ng-container>
                     <ng-container matColumnDef="level">
-                        <th mat-header-cell *matHeaderCellDef> <b>Juicio</b> </th>
+                        <th mat-header-cell *matHeaderCellDef>
+                            <b>Juicio</b>
+                        </th>
                         <td mat-cell *matCellDef="let badge" [class]="'badge' + badge.id">{{badge.level}}</td>
                     </ng-container>
                     <ng-container matColumnDef="assignature">
-                        <th mat-header-cell *matHeaderCellDef> <b>Materia</b> </th>
+                        <th mat-header-cell *matHeaderCellDef>
+                            <b>Materia</b>
+                        </th>
                         <td mat-cell *matCellDef="let badge" [class]="'badge' + badge.id">{{badge.assignature}}</td>
                     </ng-container>
                     <ng-container matColumnDef="description">
-                        <th mat-header-cell *matHeaderCellDef> <b>Descripción</b> </th>
+                        <th mat-header-cell *matHeaderCellDef>
+                            <b>Descripción</b>
+                        </th>
                         <td mat-cell *matCellDef="let badge">
                             <mat-form-field>
                                 <textarea matInput rows="3" [class]="'badge' + badge.id">{{badge.description}}</textarea>
@@ -55,7 +67,9 @@
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="actions" class="badgesActionsColumn">
-                        <th mat-header-cell *matHeaderCellDef> <b>Acciones</b> </th>
+                        <th mat-header-cell *matHeaderCellDef>
+                            <b>Acciones</b>
+                        </th>
                         <td mat-cell *matCellDef="let badge">
                             <button mat-mini-fab color="accent" class="mx-1" (click)="updateBadge('badge' + badge.id)">
                                 <mat-icon>done</mat-icon>
@@ -65,8 +79,8 @@
                             </button>
                         </td>
                     </ng-container>
-                    <tr mat-header-row *matHeaderRowDef="columnTitles"></tr>
-                    <tr mat-row *matRowDef="let row; columns: columnTitles;"></tr>
+                    <tr mat-header-row *matHeaderRowDef="badgesTitles"></tr>
+                    <tr mat-row *matRowDef="let row; columns: badgesTitles;"></tr>
                 </table>
             </div>
         </mat-tab>
@@ -75,49 +89,168 @@
             <div class="gradesForm">
                 <mat-form-field appearance="outline">
                     <mat-label>Sede</mat-label>
-                    <mat-select>
-                        <mat-option>San José</mat-option>
+                    <mat-select [(ngModel)]="gradesForm.place" name="gradePlace" (blur)="unlockSend(gradesForm, 'grades')">
+                        <mat-option value="Cortijo">Cortijo</mat-option>
+                        <mat-option value="Corzo">Corzo</mat-option>
+                        <mat-option value="María Teresa Ortíz">María Teresa Ortíz</mat-option>
+                        <mat-option value="María Teresa Ortíz nueva">María Teresa Ortíz nueva</mat-option>
+                        <mat-option value="Principal">Principal</mat-option>
+                        <mat-option value="San José">San José</mat-option>
+                        <mat-option value="Serrezuela">Serrezuela</mat-option>
                     </mat-select>
                 </mat-form-field>  
                 <mat-form-field appearance="outline">
                     <mat-label>Jornada</mat-label>
-                    <mat-select>
-                        <mat-option>Mañana</mat-option>
+                    <mat-select [(ngModel)]="gradesForm.scheme" name="gradeScheme" (blur)="unlockSend(gradesForm, 'grades')" (selectionChange)="unlockSelector('grupos', gradesForm)">
+                        <mat-option value="Mañana">Mañana</mat-option>
+                        <mat-option value="Tarde">Tarde</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
+                    <mat-label>Grado</mat-label>
+                    <mat-select [(ngModel)]="gradesForm.grade" name="gradeGrade" [disabled]="disableGradeGroup" (blur)="unlockSend(gradesForm, 'grades')">
+                        <mat-option *ngFor="let option of groupsList" [value]="option.label">{{option.label}}</mat-option>
+                    </mat-select>
+                </mat-form-field> 
+                <mat-form-field appearance="outline">
                     <mat-label>Grupo</mat-label>
-                    <mat-select>
-                        <mat-option>Segundo 2</mat-option>
+                    <mat-select [(ngModel)]="gradesForm.group" name="gradeGroup" [disabled]="disableGradeGroup" (blur)="unlockSend(gradesForm, 'grades')" (selectionChange)="unlockSelector('dep_grados_materia', gradesForm.grade, 'grades')">
+                        <mat-option *ngFor="let option of groupsList" [value]="option.value">{{option.value}}</mat-option>
                     </mat-select>
                 </mat-form-field>  
                 <mat-form-field appearance="outline">
                     <mat-label>Asignatura</mat-label>
-                    <mat-select>
-                        <mat-option>matemáticas</mat-option>
+                    <mat-select [(ngModel)]="gradesForm.assignature" name="gradeAssignature" [disabled]="disableGradeAssignature" (selectionChange)="unlockSend(gradesForm, 'grades')">
+                        <mat-option *ngFor="let option of gradesAssignatureList" [value]="option.value">{{option.label}}</mat-option>
                     </mat-select>
-                </mat-form-field>    
+                </mat-form-field>
             </div>
-            <button mat-raised-button color="accent">Generar</button>
+            <button mat-raised-button color="accent" [disabled]="disableGetGrades" (click)="getAcademicTable('grades', gradesForm)" class="mb-2">Generar</button>
             
-            <!-- <table mat-table class="d-block mat-elevation-z2">
-                estudiantes inscritos en la asignatura filtrados por los otros campos
-            </table> -->
-
+            <table mat-table class="gradesTable mat-elevation-z2" [dataSource]="gradesData">
+                <ng-container matColumnDef="id_student">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>ID Estudiante</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <b>{{row.id_student}}</b>
+                        <input type="hidden" [name]="'grade' + row.id" [value]="row.id_student">
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="fullname">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Nombre Completo</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.fullname}}
+                        <input type="hidden" [name]="'grade' + row.id" [value]="row.fullname">
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="g1">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Nota Periodo 1</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-form-field>
+                            <input matInput type="number" min="0" max="5" [name]="'grade' + row.id" [value]="row.g1" (change)="setFinalGrade('grade' + row.id)">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="g2">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Nota Periodo 2</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-form-field>
+                            <input matInput type="number" min="0" max="5" [name]="'grade' + row.id" [value]="row.g2" (change)="setFinalGrade('grade' + row.id)">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="g3">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Nota Periodo 3</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-form-field>
+                            <input matInput type="number" min="0" max="5" [name]="'grade' + row.id" [value]="row.g3" (change)="setFinalGrade('grade' + row.id)">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="g4">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Nota Periodo 4</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-form-field>
+                            <input matInput type="number" min="0" max="5" [name]="'grade' + row.id" [value]="row.g4" (change)="setFinalGrade('grade' + row.id)">
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="final">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Nota Final</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-form-field>
+                            <input matInput type="number" min="0" max="5" [name]="'grade' + row.id" [value]="row.final" readonly>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Acciones</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <input type="hidden" [name]="'grade' + row.id" [value]="row.id">
+                        <button mat-raised-button color="warn" (click)="saveGrade('grade' + row.id)">
+                            <mat-icon>done</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="gradesTitles"></tr>
+                <tr mat-row *matRowDef="let row; columns: gradesTitles;"></tr>
+            </table>
         </mat-tab>
 
         <mat-tab label="Observador">
             <mat-form-field appearance="outline" class="d-block">
                 <mat-label>Grupo</mat-label>
-                <mat-select>
-                    <mat-option>Segundo 2</mat-option>
+                <mat-select [(ngModel)]="requestedGroup" name="requestedGroup">
+                    <mat-option *ngFor="let option of observationsGroupList" [value]="option.value">{{option.label}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <button mat-raised-button color="accent">Generar</button>
+            <button mat-raised-button color="accent" (click)="getObservations(requestedGroup)">Generar</button>
 
-            <!-- <table mat-table class="d-block mat-elevation-z2">
-                tabla de estudiantes por grupo, donde se selecciona uno para agregarle su observacion
-            </table> -->
+            <table mat-table class="mat-elevation-z2" [dataSource]="groupMembers">
+                <ng-container matColumnDef="id_student">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>ID Estudiante</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.id}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="fullname">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Nombre Completo</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.fullname}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Acciones</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-raised-button color="warn">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="groupMembersTitles"></tr>
+                <tr mat-row *matRowDef="let row; columns: groupMembersTitles;"></tr>
+            </table>
 
         </mat-tab>
 

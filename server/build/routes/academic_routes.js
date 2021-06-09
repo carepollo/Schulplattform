@@ -12,6 +12,9 @@ class AcademicRoutes {
         this.router.post('/badges/update', academic_controller_1.academicController.updateBadgeData);
         this.router.get('/badges/delete/:deleted', academic_controller_1.academicController.deleteBadge);
         this.router.post('/badges/insert', academic_controller_1.academicController.createBadge);
+        this.router.post('/grades/get', academic_controller_1.academicController.getGrades);
+        this.router.post('/grades/update', academic_controller_1.academicController.updateGrade);
+        this.router.get('/observations/get/:requested', academic_controller_1.academicController.getGroupMembers);
     }
 }
 const panelRoutes = new AcademicRoutes();

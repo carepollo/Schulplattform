@@ -57,9 +57,7 @@
                 <mat-label>Departamento de expedición</mat-label>
                 <mat-select [(ngModel)]="userdata.person.zone_expedition.value" name="zone_expedition" (selectionChange)="unlockSelector('zone_expedition')">
                     <mat-option [value]="userdata.person.zone_expedition.value">{{userdata.person.zone_expedition.label}}</mat-option>
-                    <ng-container *ngFor="let option of optionsZone">
-                        <mat-option *ngIf="option.value != userdata.person.zone_expedition.value" [value]="option.value">{{option.label}}</mat-option>
-                    </ng-container>
+                    <mat-option *ngFor="let option of optionsZone" [value]="option.value">{{option.label}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" class="mx-2">
@@ -127,9 +125,7 @@
                 <mat-label>Departamento de residencia</mat-label>
                 <mat-select [(ngModel)]="userdata.person.zone_lives.value" name="zone_lives" (selectionChange)="unlockSelector('zone_lives')">
                     <mat-option [value]="userdata.person.zone_lives.value">{{userdata.person.zone_lives.label}}</mat-option>
-                    <ng-container *ngFor="let option of optionsZone">
-                        <mat-option *ngIf="option.value != userdata.person.zone_lives.value" [value]="option.value">{{option.label}}</mat-option>
-                    </ng-container>
+                    <mat-option *ngFor="let option of optionsZone" [value]="option.value">{{option.label}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" class="mx-2">

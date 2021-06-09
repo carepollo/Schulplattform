@@ -34,6 +34,6 @@ table .badgesActionsColumn button{
 
 .gradesForm {
     display: grid;
-    grid: max-content / 25% 25% 25% 25%;
+    grid: max-content / 20% 20% 20% 20% 20%;
 }
 

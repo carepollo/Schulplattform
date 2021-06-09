@@ -29,19 +29,36 @@ export class AcademicService {
 
 
   //obtener datos recurrentes como tablas o selectores específicos
-  getOptionList(tabletarget:string, filter:number| string): Observable<Array<SelectOption>> {
+  getOptionList(tabletarget:string | number, filter:any): Observable<Array<SelectOption>> {
     let request = {
       tablename: tabletarget,
       selectId: filter
     }
     return this.http.post<Array<SelectOption>>(`${this.backend}/panel/userprofile/selector`, request)
   }
-  getTableList(tablename:string): Observable<Array<any>> {
-    return this.http.get<Array<any>>(`${this.backend}/academic/badges/${tablename}`)
+  getTable(identity:string, requestData:any):Observable<any>{
+    let rData = {
+      target: identity,
+      data: requestData
+    }
+    return this.http.post(`${this.backend}/academic/grades/get`, rData)
+  }
+
+  //crud de observaciones
+  getObservers(group:number): Observable<any> {
+    return this.http.get<any>(`${this.backend}/academic/observations/get/${group}`)
   }
 
 
+  //crud de notas
+  updateGrade(data:any): Observable<boolean>{
+    return this.http.post<boolean>(`${this.backend}/academic/grades/update`, data)
+  }
+  
   //crud de logros
+  getBadgesTable(tablename:string): Observable<Array<any>> {
+    return this.http.get<Array<any>>(`${this.backend}/academic/badges/${tablename}`)
+  }
   updateBadgeData(badge:BadgesTable): Observable<boolean> {
     return this.http.post<boolean>(`${this.backend}/academic/badges/update`, badge)
   }
