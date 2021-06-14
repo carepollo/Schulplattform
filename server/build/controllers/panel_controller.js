@@ -126,9 +126,13 @@ class PanelController {
                     query = `SELECT materia_grado AS label, id as value FROM ${request.body.tablename} WHERE grado_corresponde = '${request.body.selectId}'`;
                     break;
                 case "grupos":
-                    query = `SELECT grado as label, nomenclatura_grupo as value FROM grupos WHERE sede = '${request.body.selectId.place}' AND jornada = '${request.body.selectId.scheme}'`;
+                    query = `SELECT grado as label, nomenclatura_grupo as value FROM grupos WHERE sede = '${request.body.selectId.place}' AND jornada = '${request.body.selectId.scheme}';`;
+                    break;
                 case "gruposTotal":
                     query = `SELECT concat(sede, " -> ", jornada , " -> ", grado, " ", nomenclatura_grupo) as label, id as value  FROM grupos`;
+                    break;
+                case "gradosTodo":
+                    query = `SELECT nombre as label FROM grados`;
                     break;
             }
             try {

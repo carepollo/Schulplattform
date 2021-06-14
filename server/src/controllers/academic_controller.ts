@@ -88,7 +88,17 @@ class AcademicController {
         }
     }
 
-    
+    public async getObservationsStudent(request:Request, response:Response) {
+        const {requested} = request.params
+        let query = `SELECT id as idOb, fecha as createdDate, descripcion as description, autor as author, sujeto_destinatario as observed FROM observaciones WHERE sujeto_destinatario = ${requested};`
+        try {
+            const gotGroup = await link_db.query(query)
+            response.json(gotGroup)
+        }
+        catch (error) {
+            response.send(false)
+        }
+    }
 
 }
 

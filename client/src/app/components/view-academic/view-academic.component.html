@@ -7,7 +7,7 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Grado</mat-label>
                     <mat-select (selectionChange)="unlockSelector('dep_grados_materia', badgesForm.grade, 'badges')" (blur)="unlockSend(badgesForm, 'badges')" [(ngModel)]="badgesForm.grade" name="grade">
-                        <mat-option *ngFor="let option of gradesList" [value]="option">{{option}}</mat-option>
+                        <mat-option *ngFor="let option of gradesList" [value]="option.label">{{option.label}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
@@ -219,7 +219,7 @@
                     <mat-option *ngFor="let option of observationsGroupList" [value]="option.value">{{option.label}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <button mat-raised-button color="accent" (click)="getObservations(requestedGroup)">Generar</button>
+            <button mat-raised-button color="accent" (click)="getGroupObservations(requestedGroup)">Generar</button>
 
             <table mat-table class="mat-elevation-z2" [dataSource]="groupMembers">
                 <ng-container matColumnDef="id_student">
@@ -243,7 +243,7 @@
                         <b>Acciones</b>
                     </th>
                     <td mat-cell *matCellDef="let row">
-                        <button mat-raised-button color="warn">
+                        <button mat-raised-button color="warn" (click)="showObservationsModal(row)">
                             <mat-icon>edit</mat-icon>
                         </button>
                     </td>

@@ -7,6 +7,7 @@ import { Person } from '../models/Person';
 import { Auth } from '../models/Auth';
 import { SelectOption } from '../models/SelectOption';
 import { BadgesTable } from '../models/BadgeTable';
+import { Observation } from "../models/Observation";
 
 import { Observable } from 'rxjs';
 
@@ -46,7 +47,10 @@ export class AcademicService {
 
   //crud de observaciones
   getObservers(group:number): Observable<any> {
-    return this.http.get<any>(`${this.backend}/academic/observations/get/${group}`)
+    return this.http.get<any>(`${this.backend}/academic/observations/get/many/${group}`)
+  }
+  getObservations(student:number): Observable<Array<Observation>> {
+    return this.http.get<any>(`${this.backend}/academic/observations/get/single/${student}`)
   }
 
 

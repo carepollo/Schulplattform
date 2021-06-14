@@ -107,5 +107,18 @@ class AcademicController {
             }
         });
     }
+    getObservationsStudent(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { requested } = request.params;
+            let query = `SELECT id as idOb, fecha as createdDate, descripcion as description, autor as author, sujeto_destinatario as observed FROM observaciones WHERE sujeto_destinatario = ${requested};`;
+            try {
+                const gotGroup = yield connection_1.default.query(query);
+                response.json(gotGroup);
+            }
+            catch (error) {
+                response.send(false);
+            }
+        });
+    }
 }
 exports.academicController = new AcademicController();

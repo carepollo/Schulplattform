@@ -1,3 +1,4 @@
+/* Módulo de logros */
 .badgesSection {
     display: inline-table;
 }
@@ -32,8 +33,24 @@ table .badgesActionsColumn button{
     }
 }
 
+/* Módulo de notas */
+
 .gradesForm {
     display: grid;
     grid: max-content / 20% 20% 20% 20% 20%;
 }
 
+
+/* Modulo de observaciones */
+
+
+.observationForm {
+    margin-bottom: 20px;
+}
+
+.observationFormField {
+    display: block;
+}
+.observationFormField textarea {
+    height: 110px;
+}

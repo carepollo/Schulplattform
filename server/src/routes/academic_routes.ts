@@ -15,7 +15,8 @@ class AcademicRoutes {
         this.router.post('/badges/insert', academicController.createBadge)
         this.router.post('/grades/get', academicController.getGrades)
         this.router.post('/grades/update', academicController.updateGrade)
-        this.router.get('/observations/get/:requested', academicController.getGroupMembers)
+        this.router.get('/observations/get/many/:requested', academicController.getGroupMembers)
+        this.router.get('/observations/get/single/:requested', academicController.getObservationsStudent)
     }
 }
 
