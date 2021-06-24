@@ -1,6 +1,6 @@
 export interface Observation {
     idOb: number;
-    createdDate: Date;
+    createdDate: string;
     description: string;
     author: string;
     observed: number;

@@ -90,7 +90,7 @@ class AcademicController {
 
     public async getObservationsStudent(request:Request, response:Response) {
         const {requested} = request.params
-        let query = `SELECT id as idOb, fecha as createdDate, descripcion as description, autor as author, sujeto_destinatario as observed FROM observaciones WHERE sujeto_destinatario = ${requested};`
+        let query = `SELECT id as idOb, fecha as createdDate, descripcion as description, autor as author, sujeto_destinatario as observed FROM observaciones WHERE sujeto_destinatario = ${requested}`
         try {
             const gotGroup = await link_db.query(query)
             response.json(gotGroup)
@@ -99,6 +99,41 @@ class AcademicController {
             response.send(false)
         }
     }
+
+    public async updateObservation(request:Request, response:Response) {
+        let query = `UPDATE observaciones SET fecha = '${request.body.createdDate}' , autor = '${request.body.author}' , descripcion = '${request.body.description}' WHERE id = ${request.body.idOb}`
+        try {
+            await link_db.query(query)
+            response.send(true)
+        }
+        catch (error) {
+            response.send(false)            
+        }
+    }
+    public async deleteObservation(request:Request, response:Response) {
+        const {deleted} = request.params
+        console.log(deleted);
+        let query = `DELETE FROM observaciones WHERE id = ${deleted}`
+        console.log(query);
+        try {
+            await link_db.query(query)
+            response.send(true)
+        }
+        catch (error) {
+            response.send(false)            
+        }
+    }
+    public async createObservation(request:Request, response:Response) {
+        let query = `INSERT INTO observaciones (fecha, descripcion, autor, sujeto_destinatario) VALUES ('${request.body.createdDate}', '${request.body.description}', '${request.body.author}', '${request.body.observed}')`
+        try {
+            await link_db.query(query)
+            response.send(true)
+        }
+        catch (error) {
+            response.send(false)            
+        }
+    }
+
 
 }
 

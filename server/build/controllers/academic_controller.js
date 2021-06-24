@@ -110,10 +110,49 @@ class AcademicController {
     getObservationsStudent(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             const { requested } = request.params;
-            let query = `SELECT id as idOb, fecha as createdDate, descripcion as description, autor as author, sujeto_destinatario as observed FROM observaciones WHERE sujeto_destinatario = ${requested};`;
+            let query = `SELECT id as idOb, fecha as createdDate, descripcion as description, autor as author, sujeto_destinatario as observed FROM observaciones WHERE sujeto_destinatario = ${requested}`;
             try {
                 const gotGroup = yield connection_1.default.query(query);
                 response.json(gotGroup);
+            }
+            catch (error) {
+                response.send(false);
+            }
+        });
+    }
+    updateObservation(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = `UPDATE observaciones SET fecha = '${request.body.createdDate}' , autor = '${request.body.author}' , descripcion = '${request.body.description}' WHERE id = ${request.body.idOb}`;
+            try {
+                yield connection_1.default.query(query);
+                response.send(true);
+            }
+            catch (error) {
+                response.send(false);
+            }
+        });
+    }
+    deleteObservation(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { deleted } = request.params;
+            console.log(deleted);
+            let query = `DELETE FROM observaciones WHERE id = ${deleted}`;
+            console.log(query);
+            try {
+                yield connection_1.default.query(query);
+                response.send(true);
+            }
+            catch (error) {
+                response.send(false);
+            }
+        });
+    }
+    createObservation(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let query = `INSERT INTO observaciones (fecha, descripcion, autor, sujeto_destinatario) VALUES ('${request.body.createdDate}', '${request.body.description}', '${request.body.author}', '${request.body.observed}')`;
+            try {
+                yield connection_1.default.query(query);
+                response.send(true);
             }
             catch (error) {
                 response.send(false);

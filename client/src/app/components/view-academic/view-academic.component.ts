@@ -9,6 +9,8 @@ import { SelectOption } from "src/app/models/SelectOption";
 import { BadgesTable } from "src/app/models/BadgeTable";
 import { Observation } from "src/app/models/Observation";
 
+import * as moment from 'moment';
+
 export interface GradesTable {
   id: number;
   g1: number;
@@ -27,17 +29,90 @@ export interface GradesTable {
   styleUrls: ['./view-academic.component.css']
 })
 export class ObservationsForm {
+  
+  @ViewChild(MatTable) observationsTable!: MatTable<any>
 
-  public currDate:string = ""
+  public observationDescription:string = ""
+  public newObservation:Observation = {
+    idOb: 0,
+    createdDate: moment(new Date()).format("YYYY-MM-DD"),
+    description: "",
+    author: `${this.data.author.person.names} ${this.data.author.person.lastnames}`,
+    observed: this.data.id
+  }
+  public disabledCreateObservation = true
 
-  constructor(public dialogRef: MatDialogRef<ObservationsForm>, @Inject(MAT_DIALOG_DATA) public data: any) {
-    let date = new Date()
-    
-    let day = date.getDate()
-    let month = ((date.getMonth() + 1) < 10) ? `0${date.getMonth() + 1}` : date.getMonth() + 1
-    let year = date.getFullYear()
+  constructor(
+    public dialogRef: MatDialogRef<ObservationsForm>,
+    private provider:AcademicService,
+    private notifier:MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) {}
 
-    this.currDate = `${year}-${month}-${day}`
+  unlockSend(){
+    if (this.newObservation.description != "") {
+      this.disabledCreateObservation = false
+    }
+    else {
+      this.disabledCreateObservation = true
+    }
+  }
+
+  createObservation(data:Observation) {
+    this.provider.updateObservation(data, "create").subscribe(
+      response => {
+        this.notifier.open("Creado", "OK", {duration: 3*1000})
+        this.provider.getObservations(data.observed).subscribe(
+          success => {
+            this.data.observations = success
+            this.data.observations.forEach((iteration:Observation) => {
+              iteration.createdDate = moment(iteration.createdDate).format("YYYY-MM-DD")
+            })
+            this.observationsTable.renderRows()
+          },
+          error => {
+            console.warn(error);
+            this.notifier.open("No se pudo eliminar", "OK", {duration: 3*1000})
+          }
+        )
+      },
+      error => {
+        console.error(error);
+        this.notifier.open("No se pudo eliminar", "OK", {duration: 3*1000})}
+    )
+  }
+
+  updateObservation(data:Observation):void{
+    data.createdDate = moment(new Date()).format("YYYY-MM-DD")
+    data.author = this.data.author.person.names + " " + this.data.author.person.lastnames
+
+    this.provider.updateObservation(data, "update").subscribe(
+      response => {
+        this.notifier.open("Actualizado", "OK", {duration: 3*1000})
+      },
+      error => {
+        console.error(error);
+        this.notifier.open("Hubo un error", "OK", {duration: 3*1000})
+      }
+    )
+  }
+
+  deleteObservation(data:Observation):void {
+    this.provider.deleteObservation(data).subscribe(
+      success => {
+        this.notifier.open("Eliminado", "OK", {duration: 3*1000})
+        let collection = this.data.observations
+        collection.forEach((value:any, index:number) => {
+          if (value.idOb == data.idOb) {
+            this.data.observations.splice(index, 1)
+          }
+        })
+        this.observationsTable.renderRows()
+      },
+      error => {
+        console.error(error);
+        this.notifier.open("No se pudo eliminar", "OK", {duration: 3*1000})}
+    )    
   }
 
 }
@@ -97,17 +172,17 @@ export class ViewAcademicComponent implements OnInit {
   groupMembers:Array<any> = []
   groupsListMembers:Array<any> = []
   studentObserved:any
-  observationsTitles:Array<string> = ["id_observation", "createdDate", "description", "author", "observed", "actions"]
-
+  observationsTitles:Array<string> = ["id_observation", "createdDate", "description", "author", "actions"]
 
   constructor(private academicService:AcademicService, private notifier:MatSnackBar, public dialogs:MatDialog) {
     this.userdata = {}
     this.studentObserved = {}
+    
   }
-
+  
   ngOnInit(): void {
     this.academicService.getOptionList("gradosTodo", "*").subscribe(
-      response => {this.groupsList = response},
+      response => {this.gradesList = response},
       error => {this.notifier.open("Error cargando los grados", "OK", {duration: 3*1000})}
     )
     this.academicService.getBadgesTable("logros").subscribe(
@@ -122,7 +197,7 @@ export class ViewAcademicComponent implements OnInit {
       error => {
         this.notifier.open("Error cargando los grupos", "OK", {duration: 3*1000})
         console.error(error)
-    }
+      }
     )
   }
 
@@ -254,7 +329,6 @@ export class ViewAcademicComponent implements OnInit {
         switch (method) {
           case "grades":
             this.gradesData = success
-            console.log(this.gradesData)
             break;
           case "observations":
             break;
@@ -309,23 +383,24 @@ export class ViewAcademicComponent implements OnInit {
   showObservationsModal(observedData:any):void {
     let openable = true
     this.studentObserved = {
-      id: observedData.id_student,
+      id: observedData.id,
       fullname: observedData.fullname,
       labels: this.observationsTitles,
       author: this.userdata
-    }
-    this.academicService.getObservations(observedData.id_student).subscribe(
-      response => {this.studentObserved.observations = response},
-      error => {openable = false}
+    }    
+    this.academicService.getObservations(observedData.id).subscribe(
+      response => {
+        this.studentObserved.observations = response
+        this.studentObserved.observations.forEach((iteration:any) => {
+          iteration.createdDate = moment(iteration.createdDate).format("YYYY-MM-DD")
+        })
+        const popupWindow = this.dialogs.open(ObservationsForm, {
+          width: "80%",
+          data: this.studentObserved
+        })
+      },
+      error => {this.notifier.open("Error en observaciones del estudiante", "OK", {duration: 3*1000})}
     )
-    if(!openable) {
-      this.notifier.open("Error en observaciones del estudiante", "OK", {duration: 3*1000})
-    }
-    else {
-      const popupWindow = this.dialogs.open(ObservationsForm, {
-        width: "80%",
-        data: this.studentObserved
-      })
-    }
   }
+
 }

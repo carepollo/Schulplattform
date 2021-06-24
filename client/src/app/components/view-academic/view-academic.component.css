@@ -54,3 +54,10 @@ table .badgesActionsColumn button{
 .observationFormField textarea {
     height: 110px;
 }
+
+.eachObservationField mat-form-field {
+    display: block;
+}
+.eachObservationField textarea {
+    height: 70px;
+}

@@ -52,6 +52,17 @@ export class AcademicService {
   getObservations(student:number): Observable<Array<Observation>> {
     return this.http.get<any>(`${this.backend}/academic/observations/get/single/${student}`)
   }
+  updateObservation(data:Observation, method:string): Observable<boolean> {
+    if (method == "update") {
+      return this.http.post<boolean>(`${this.backend}/academic/observations/update`, data)
+    }
+    else {
+      return this.http.post<boolean>(`${this.backend}/academic/observations/create`, data)      
+    }
+  }
+  deleteObservation(data:Observation): Observable<boolean> {
+    return this.http.get<boolean>(`${this.backend}/academic/observations/delete/${data.idOb}`)
+  }
 
 
   //crud de notas

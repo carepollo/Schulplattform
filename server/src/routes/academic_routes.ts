@@ -17,6 +17,9 @@ class AcademicRoutes {
         this.router.post('/grades/update', academicController.updateGrade)
         this.router.get('/observations/get/many/:requested', academicController.getGroupMembers)
         this.router.get('/observations/get/single/:requested', academicController.getObservationsStudent)
+        this.router.get('/observations/delete/:deleted', academicController.deleteObservation)
+        this.router.post('/observations/update', academicController.updateObservation)
+        this.router.post('/observations/create', academicController.createObservation)
     }
 }
 

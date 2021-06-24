@@ -16,6 +16,9 @@ class AcademicRoutes {
         this.router.post('/grades/update', academic_controller_1.academicController.updateGrade);
         this.router.get('/observations/get/many/:requested', academic_controller_1.academicController.getGroupMembers);
         this.router.get('/observations/get/single/:requested', academic_controller_1.academicController.getObservationsStudent);
+        this.router.get('/observations/delete/:deleted', academic_controller_1.academicController.deleteObservation);
+        this.router.post('/observations/update', academic_controller_1.academicController.updateObservation);
+        this.router.post('/observations/create', academic_controller_1.academicController.createObservation);
     }
 }
 const panelRoutes = new AcademicRoutes();

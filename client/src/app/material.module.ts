@@ -18,7 +18,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 
 const materialComponents = [
@@ -40,7 +40,7 @@ const materialComponents = [
   MatTableModule,
   MatTreeModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatMomentDateModule
 ];
 
 @NgModule({
