@@ -18,6 +18,9 @@ import { ViewElectionsComponent } from './components/view-elections/view-electio
 
 //sub componentes
 import { ObservationsForm } from './components/view-academic/view-academic.component';
+import { GradesTableComponent } from './components/view-reports/grades-table/grades-table.component';
+import { GraphBehaviourComponent } from './components/view-reports/graph-behaviour/graph-behaviour.component';
+import { StudentsListComponent } from './components/view-reports/students-list/students-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,10 @@ import { ObservationsForm } from './components/view-academic/view-academic.compo
     ViewAcademicComponent,
     ViewReportsComponent,
     ViewElectionsComponent,
-    ObservationsForm
+    ObservationsForm,
+    GradesTableComponent,
+    GraphBehaviourComponent,
+    StudentsListComponent
   ],
   imports: [
     BrowserModule,

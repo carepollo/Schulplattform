@@ -52,8 +52,8 @@
         <div class="maincontent p-3" [ngSwitch]="currentView">
             <app-view-profile *ngSwitchCase="'profile'" [userdata]="userlogged"></app-view-profile>
             <app-view-academic *ngSwitchCase="'academic'" [userdata]="userlogged"></app-view-academic>
-            <app-view-reports *ngSwitchCase="'reports'"></app-view-reports>
-            <app-view-elections *ngSwitchCase="'elections'"></app-view-elections>
+            <app-view-reports *ngSwitchCase="'reports'" [userdata]="userlogged"></app-view-reports>
+            <app-view-elections *ngSwitchCase="'elections'" [userdata]="userlogged"></app-view-elections>
         </div>
         
     </mat-sidenav-content>

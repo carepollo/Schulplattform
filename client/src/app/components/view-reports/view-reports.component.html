@@ -1,1 +1,30 @@
-<p>view-reports works!</p>
+<mat-card class="card">
+    <mat-card-header>
+        <mat-card-title>Reportes</mat-card-title>
+        <mat-card-subtitle>Escoja el grupo y el tipo de reporte</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content> 
+        <mat-form-field appearance="outline">
+            <mat-label>Grupo</mat-label>
+            <mat-select [(ngModel)]="reportData.target" name="reportTarget">
+                <mat-option *ngFor="let option of groupsList" [value]="option.value">{{option.label}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de reporte</mat-label>
+            <mat-select [(ngModel)]="reportData.method" name="reportType">
+                <mat-option value="gradesTable">Reporte de notas por grupo</mat-option>
+                <mat-option value="graphBehaviour">Gráficas por desempeño</mat-option>
+                <mat-option value="studentsList">Listar estudiantes</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <div #reportCanvas>
+            <div [ngSwitch]="reportData.method">
+                <grades-table *ngSwitchCase="'gradesTable'"></grades-table>
+                <graph-behaviour *ngSwitchCase="'graphBehaviour'"></graph-behaviour>
+                <students-list *ngSwitchCase="'studentsList'"></students-list>
+                <div *ngSwitchDefault></div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

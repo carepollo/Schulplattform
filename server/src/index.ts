@@ -5,6 +5,7 @@ import cors from 'cors';
 import indexRoutes from './routes/index_routes';
 import panelRoutes from './routes/panel_routes';
 import academicRoutes from './routes/academic_routes';
+import reportsRoutes from './routes/reports_routes';
 
 
 class Server {
@@ -28,6 +29,8 @@ class Server {
         this.app.use('/', indexRoutes);
         this.app.use('/panel', panelRoutes);
         this.app.use('/academic', academicRoutes);
+        this.app.use('/reports', reportsRoutes);
+
     }
     start():void {
         this.app.listen(this.port, () => {
