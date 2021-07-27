@@ -21,7 +21,7 @@
         <div #reportCanvas>
             <div [ngSwitch]="reportData.method">
                 <grades-table *ngSwitchCase="'gradesTable'"></grades-table>
-                <graph-behaviour *ngSwitchCase="'graphBehaviour'"></graph-behaviour>
+                <graph-behaviour *ngSwitchCase="'graphBehaviour'" [dataSource]="datasource"></graph-behaviour>
                 <students-list *ngSwitchCase="'studentsList'"></students-list>
                 <div *ngSwitchDefault></div>
             </div>

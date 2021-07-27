@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import * as Chart from "chart.js";
 
 @Component({
   selector: 'graph-behaviour',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GraphBehaviourComponent implements OnInit {
 
+  @Input() dataSource:any = {}
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.dataSource)
   }
 
 }

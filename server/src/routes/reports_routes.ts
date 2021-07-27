@@ -10,7 +10,7 @@ class ReportsRoutes {
     }
 
     config() {
-        this.router.get('/badges/:table', reportsController.getGraphs)
+        this.router.post('/graphs', reportsController.getGraphs)
     }
 }
 

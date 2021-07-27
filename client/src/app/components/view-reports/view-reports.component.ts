@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatTable } from '@angular/material/table'
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { AcademicService } from 'src/app/services/academic.service';
 import { ReportsService } from "src/app/services/reports.service";
@@ -21,7 +19,8 @@ export class ViewReportsComponent implements OnInit {
   public groupsList:Array<SelectOption> = []
   public reportData:any = {
     target: 0,
-    method: ""
+    method: "",
+    data: {}
   }
   public currentReport:string = ""
   public datasource:any = {}
@@ -43,16 +42,16 @@ export class ViewReportsComponent implements OnInit {
   }
 
   makeReport() {
-    console.log(this.reportData);
-    // this.reportsService.getReport(this.reportData).subscribe(
-    //   success => {
-    //     this.datasource = success
-    //   },
-    //   error => {
-    //     this.notifier.open("Error cargando los grupos", "OK", {duration: 3*1000})
-    //     console.error(error)
-    //   }
-    // )
+    this.reportsService.getReport(this.reportData).subscribe(
+      success => {
+        this.reportData.data = success
+        this.datasource = this.reportData
+      },
+      error => {
+        this.notifier.open("Error cargando los grupos", "OK", {duration: 3*1000})
+        console.error(error)
+      }
+    )
   }
 
 }

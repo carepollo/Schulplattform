@@ -8,7 +8,7 @@ class ReportsRoutes {
         this.config();
     }
     config() {
-        this.router.get('/badges/:table', reports_controller_1.reportsController.getGraphs);
+        this.router.post('/graphs', reports_controller_1.reportsController.getGraphs);
     }
 }
 const reportsRoutes = new ReportsRoutes();

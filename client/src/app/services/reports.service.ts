@@ -19,6 +19,6 @@ export class ReportsService {
   constructor(private http: HttpClient) { }
 
   getReport(params:any): Observable<any>{
-    return this.http.post(`${this.backend}/reports/get`, params)
+    return this.http.post(`${this.backend}/reports/graphs`, params)
   }
 }
