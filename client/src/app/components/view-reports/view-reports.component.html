@@ -3,6 +3,7 @@
         <mat-card-title>Reportes</mat-card-title>
         <mat-card-subtitle>Escoja el grupo y el tipo de reporte</mat-card-subtitle>
     </mat-card-header>
+
     <mat-card-content> 
         <mat-form-field appearance="outline">
             <mat-label>Grupo</mat-label>
@@ -18,13 +19,19 @@
                 <mat-option value="studentsList">Listar estudiantes</mat-option>
             </mat-select>
         </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Periodo</mat-label>
+            <input matInput [(ngModel)]="reportData.parameter" name="reportParameter" placeholder="Digite el año que consultará" [value]="reportData.parameter">
+        </mat-form-field>
+
         <div #reportCanvas>
             <div [ngSwitch]="reportData.method">
                 <grades-table *ngSwitchCase="'gradesTable'"></grades-table>
-                <graph-behaviour *ngSwitchCase="'graphBehaviour'" [dataSource]="datasource"></graph-behaviour>
+                <graph-behaviour *ngSwitchCase="'graphBehaviour'" [dataSource]="reportData"></graph-behaviour>
                 <students-list *ngSwitchCase="'studentsList'"></students-list>
                 <div *ngSwitchDefault></div>
             </div>
         </div>
     </mat-card-content>
+    
 </mat-card>

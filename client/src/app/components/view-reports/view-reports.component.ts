@@ -20,7 +20,7 @@ export class ViewReportsComponent implements OnInit {
   public reportData:any = {
     target: 0,
     method: "",
-    data: {}
+    parameter: new Date().getFullYear()
   }
   public currentReport:string = ""
   public datasource:any = {}
@@ -41,17 +41,5 @@ export class ViewReportsComponent implements OnInit {
     )
   }
 
-  makeReport() {
-    this.reportsService.getReport(this.reportData).subscribe(
-      success => {
-        this.reportData.data = success
-        this.datasource = this.reportData
-      },
-      error => {
-        this.notifier.open("Error cargando los grupos", "OK", {duration: 3*1000})
-        console.error(error)
-      }
-    )
-  }
 
 }

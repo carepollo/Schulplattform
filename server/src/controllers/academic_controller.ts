@@ -55,7 +55,7 @@ class AcademicController {
     }
 
     public async getGrades(request:Request, response:Response){
-        let query = `SELECT notas.id_nota as id, nota_p1 as g1, nota_p2 as g2, nota_p3 as g3, nota_p4 as g4, nota_final as final , personas.id_persona as id_student , concat(personas.nombres_persona, " ", personas.apellidos_persona) as fullname FROM notas INNER JOIN personas ON notas.estudiante_corresponde = personas.id_persona WHERE materia_corresponde = ${request.body.data.assignature} AND estudiante_corresponde IN (SELECT persona FROM dep_grupos_persona WHERE grupo_corresponde = (SELECT id FROM grupos WHERE grado = "${request.body.data.grade}" AND nomenclatura_grupo = ${request.body.data.group} AND jornada = "${request.body.data.scheme}" AND sede = "${request.body.data.place}"))`
+        let query = `SELECT notas.id_nota as id, nota_p1 as g1, nota_p2 as g2, nota_p3 as g3, nota_p4 as g4, nota_final as final , personas.id_persona as id_student , concat(personas.nombres_persona, " ", personas.apellidos_persona) as fullname FROM notas INNER JOIN personas ON notas.estudiante_corresponde = personas.id_persona WHERE periodo_corresponde = NOW() AND materia_corresponde = ${request.body.data.assignature} AND estudiante_corresponde IN (SELECT persona FROM dep_grupos_persona WHERE grupo_corresponde = (SELECT id FROM grupos WHERE grado = "${request.body.data.grade}" AND nomenclatura_grupo = ${request.body.data.group} AND jornada = "${request.body.data.scheme}" AND sede = "${request.body.data.place}"))`
         try {
             const grades = await link_db.query(query)
             response.json(grades)
