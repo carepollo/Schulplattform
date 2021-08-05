@@ -16,6 +16,48 @@ exports.reportsController = void 0;
 const connection_1 = __importDefault(require("../connection"));
 const Utilities_1 = __importDefault(require("../Utilities"));
 class ReportsController {
+    getFullTable(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let currentYear = new Date().getFullYear();
+                if (currentYear != request.body.parameter) {
+                    // const data = await link_db.query(``)
+                }
+                else {
+                    const data = yield connection_1.default.query(``);
+                }
+                response.json({
+                    stauts: 200,
+                    message: "working"
+                });
+            }
+            catch (error) {
+                console.log(error);
+                response.json({
+                    status: 500,
+                    message: "Ha habido un error trayendo la tabla"
+                });
+            }
+        });
+    }
+    getList(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // const data = await link_db.query(``)
+                response.json({
+                    status: 200,
+                    mesage: "sis"
+                });
+            }
+            catch (error) {
+                console.log(error);
+                response.json({
+                    status: 500,
+                    message: "Ha habido un error trayendo la tabla"
+                });
+            }
+        });
+    }
     getGraphs(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

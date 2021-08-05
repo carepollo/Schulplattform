@@ -10,7 +10,9 @@ class ReportsRoutes {
     }
 
     config() {
-        this.router.post('/graphs', reportsController.getGraphs)
+        this.router.post('/graphBehaviour', reportsController.getGraphs)
+        this.router.post('/gradesTable', reportsController.getFullTable)
+        // this.router.post('/studentsList', reportsController.getList)
     }
 }
 

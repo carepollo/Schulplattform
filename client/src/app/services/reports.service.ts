@@ -19,18 +19,6 @@ export class ReportsService {
   constructor(private http: HttpClient) { }
 
   getReport(params:any): Observable<any>{
-    let url = ""
-    switch (params.method) {
-      case "gradesTable":
-        url = ""
-        break
-      case "graphBehaviour":
-        url = "graphs"
-        break
-      case "studentsList":
-        url = "list"
-        break
-    }
-    return this.http.post(`${this.backend}/reports/${url}`, params)
+    return this.http.post(`${this.backend}/reports/${params.method}`, params)
   }
 }

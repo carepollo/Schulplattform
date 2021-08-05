@@ -1,32 +1,30 @@
-<ng-template *ngIf="printed">
-    <mat-card *ngFor="let chart of charts" class="graphCard">
-        <mat-grid-list cols="2" rowHeight="2:1">
-    
-            <mat-grid-tile class="graphDescription">
-                <mat-list>
-                    <mat-list-item>
-                        <b>Criterios de evaluación</b>
-                    </mat-list-item>
-                    <mat-divider></mat-divider>
-                    <mat-list-item>
-                        <b class="superiorText">Superior: </b>mayor a 4.5
-                    </mat-list-item>
-                    <mat-list-item>
-                        <b class="highText">Alto: </b>mayor o igual a 4
-                    </mat-list-item>
-                    <mat-list-item>
-                        <b class="basicText">Básico: </b>mayor a 3
-                    </mat-list-item>
-                    <mat-list-item>
-                        <b class="lowText">Bajo: </b>menor a 3
-                    </mat-list-item>
-                </mat-list>
-            </mat-grid-tile>
+<mat-card *ngFor="let chart of charts" class="graphCard">
+    <mat-grid-list cols="2" rowHeight="2:1">
 
-            <mat-grid-tile>
-                <canvas [id]="chart.id">{{chart.chart}}</canvas>
-            </mat-grid-tile>
-    
-        </mat-grid-list>
-    </mat-card>
-</ng-template>
+        <mat-grid-tile class="graphDescription">
+            <mat-list>
+                <mat-list-item>
+                    <b>Criterios de evaluación</b>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                    <b class="superiorText">Superior: </b>mayor a 4.5
+                </mat-list-item>
+                <mat-list-item>
+                    <b class="highText">Alto: </b>mayor o igual a 4
+                </mat-list-item>
+                <mat-list-item>
+                    <b class="basicText">Básico: </b>mayor a 3
+                </mat-list-item>
+                <mat-list-item>
+                    <b class="lowText">Bajo: </b>menor a 3
+                </mat-list-item>
+            </mat-list>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+            <canvas [id]="chart.id"></canvas>
+        </mat-grid-tile>
+
+    </mat-grid-list>
+</mat-card>

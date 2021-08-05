@@ -4,6 +4,46 @@ import Utilities from '../Utilities';
 
 class ReportsController {
 
+    public async getFullTable(request:Request, response: Response) {
+        try {
+            let currentYear = new Date().getFullYear()
+            if (currentYear != request.body.parameter) {
+                // const data = await link_db.query(``)
+            }
+            else {
+                const data = await link_db.query(``)
+            }
+            response.json({
+                stauts:200,
+                message: "working"
+            })
+        }
+        catch (error) {
+            console.log(error)
+            response.json({
+                status: 500,
+                message: "Ha habido un error trayendo la tabla"
+            })
+        }
+    }
+
+    public async getList(request:Request, response: Response) {
+        try {
+            // const data = await link_db.query(``)
+            response.json({
+                status: 200,
+                mesage: "sis"
+            })
+        }
+        catch (error) {
+            console.log(error)
+            response.json({
+                status: 500,
+                message: "Ha habido un error trayendo la tabla"
+            })
+        }
+    }
+
     public async getGraphs(request:Request, response:Response) {
         try {
             const data = await link_db.query(`SELECT materia_corresponde, (SELECT materia_grado FROM dep_grados_materia WHERE dep_grados_materia.id = notas.materia_corresponde) AS materia, nota_p1, nota_p2, nota_p3, nota_p4, nota_final  FROM notas WHERE periodo_corresponde = ${request.body.parameter} AND estudiante_corresponde IN (SELECT persona FROM dep_grupos_persona WHERE grupo_corresponde = ${request.body.target}) ORDER BY materia_corresponde ASC`)

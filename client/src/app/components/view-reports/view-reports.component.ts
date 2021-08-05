@@ -27,8 +27,7 @@ export class ViewReportsComponent implements OnInit {
 
   constructor(
     private academicService: AcademicService,
-    public notifier:MatSnackBar,
-    private reportsService:ReportsService
+    public notifier:MatSnackBar
   ) { }
 
   ngOnInit(): void {
