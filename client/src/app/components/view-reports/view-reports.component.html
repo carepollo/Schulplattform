@@ -16,7 +16,6 @@
             <mat-select [(ngModel)]="reportData.method" name="reportType">
                 <mat-option value="graphBehaviour">Gráficas por desempeño</mat-option>
                 <mat-option value="gradesTable">Reporte de notas por grupo</mat-option>
-                <mat-option value="studentsList">Listar estudiantes</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline">
@@ -28,7 +27,6 @@
             <div [ngSwitch]="reportData.method">
                 <grades-table *ngSwitchCase="'gradesTable'" [dataSource]="reportData"></grades-table>
                 <graph-behaviour *ngSwitchCase="'graphBehaviour'" [dataSource]="reportData"></graph-behaviour>
-                <students-list *ngSwitchCase="'studentsList'"></students-list>
                 <div *ngSwitchDefault></div>
             </div>
         </div>

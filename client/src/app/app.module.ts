@@ -20,7 +20,6 @@ import { ViewElectionsComponent } from './components/view-elections/view-electio
 import { ObservationsForm } from './components/view-academic/view-academic.component';
 import { GradesTableComponent } from './components/view-reports/grades-table/grades-table.component';
 import { GraphBehaviourComponent } from './components/view-reports/graph-behaviour/graph-behaviour.component';
-import { StudentsListComponent } from './components/view-reports/students-list/students-list.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +32,7 @@ import { StudentsListComponent } from './components/view-reports/students-list/s
     ViewElectionsComponent,
     ObservationsForm,
     GradesTableComponent,
-    GraphBehaviourComponent,
-    StudentsListComponent
+    GraphBehaviourComponent
   ],
   imports: [
     BrowserModule,

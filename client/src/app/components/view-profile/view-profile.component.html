@@ -85,9 +85,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline" class="mx-2">
                 <mat-label>Salud</mat-label>
-                <mat-select [(ngModel)]="userdata.person.health" name="health">
-                    <mat-option [value]="userdata.person.health">{{userdata.person.health}}</mat-option>
-                </mat-select>
+                <input matInput [(ngModel)]="userdata.person.health" name="health">
             </mat-form-field>
             <mat-form-field appearance="outline" class="mx-2">
                 <mat-label>Escalafón</mat-label>

@@ -3,17 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class Utilities {
     constructor() { }
     //quita los elementos de un array unidimensional
-    removeDuplicates(array) {
+    static removeDuplicates(array) {
         var list = [];
         for (let e = 0; e < array.length; e++) {
-            for (let i = 0; i < list.length; i++) {
-                if (array[e] == list[i]) {
-                    array.splice(e, 1);
-                }
+            if (list.includes(array[e])) {
+                continue;
             }
-            list.push(array[e]);
+            else {
+                list.push(array[e]);
+            }
         }
-        return array;
+        return list;
     }
 }
 exports.default = Utilities;

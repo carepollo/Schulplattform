@@ -16,30 +16,6 @@ exports.reportsController = void 0;
 const connection_1 = __importDefault(require("../connection"));
 const Utilities_1 = __importDefault(require("../Utilities"));
 class ReportsController {
-    getFullTable(request, response) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                let currentYear = new Date().getFullYear();
-                if (currentYear != request.body.parameter) {
-                    // const data = await link_db.query(``)
-                }
-                else {
-                    const data = yield connection_1.default.query(``);
-                }
-                response.json({
-                    stauts: 200,
-                    message: "working"
-                });
-            }
-            catch (error) {
-                console.log(error);
-                response.json({
-                    status: 500,
-                    message: "Ha habido un error trayendo la tabla"
-                });
-            }
-        });
-    }
     getList(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -58,6 +34,80 @@ class ReportsController {
             }
         });
     }
+    //para la tabla de reporte total de estudiantes
+    getFullTable(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let currentYear = new Date().getFullYear();
+                let query = "";
+                var resultData = [];
+                if (currentYear == request.body.parameter) {
+                    query = `SELECT notas.estudiante_corresponde AS studentId, CONCAT(personas.nombres_persona, " ", personas.apellidos_persona) AS fullname , materias.materia_grado as assignature , nota_p1 AS g1, nota_p2 AS g2, nota_p3 AS g3, nota_p4 AS g4, nota_final AS gf FROM notas
+                            INNER JOIN personas ON notas.estudiante_corresponde = personas.id_persona
+                            INNER JOIN dep_grados_materia AS materias ON notas.materia_corresponde = materias.id
+                            WHERE estudiante_corresponde IN (SELECT persona FROM dep_grupos_persona WHERE grupo_corresponde = ${request.body.target}) and periodo_corresponde = NOW() ORDER BY materias.materia_grado ASC
+                `;
+                    const data = yield connection_1.default.query(query);
+                    if (data.length < 1) {
+                        response.json({
+                            status: 500,
+                            message: "No se encontraron registros"
+                        });
+                        return null;
+                    }
+                    // formar objeto para tabla en cliente
+                    for (let i = 0; i < data.length; i++) {
+                        let row = data[i];
+                        let index = {
+                            "id": row["studentId"],
+                            "name": row["fullname"],
+                            "data": [0],
+                            "total": 0
+                        };
+                        let l = 0;
+                        index.data = [];
+                        for (let j = 0; j < data.length; j++) {
+                            if (data[j]["studentId"] == index.id) {
+                                let content = data[j];
+                                delete content["studentId"];
+                                delete content["fullname"];
+                                index.data.push(content);
+                                index.total += content["gf"];
+                                l++;
+                            }
+                        }
+                        if (index.id !== undefined) {
+                            index.total = index.total / l;
+                            resultData.push(index);
+                        }
+                    }
+                }
+                else {
+                    query = "SELECT * FROM boletin";
+                    const data = yield connection_1.default.query(query);
+                    if (data.length < 1) {
+                        response.json({
+                            status: 500,
+                            message: "No se encontraron registros"
+                        });
+                        return null;
+                    }
+                }
+                response.json({
+                    status: 200,
+                    message: resultData
+                });
+            }
+            catch (error) {
+                console.log(error);
+                response.json({
+                    status: 500,
+                    message: "Ha habido un error trayendo la tabla"
+                });
+            }
+        });
+    }
+    //para los gráficos de rendimiento
     getGraphs(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -69,7 +119,7 @@ class ReportsController {
                     for (let i = 0; i < data.length; i++) {
                         assignatures.push(Object.values(data[i])[0]);
                     }
-                    assignatures = new Utilities_1.default().removeDuplicates(assignatures);
+                    assignatures = Utilities_1.default.removeDuplicates(assignatures);
                     let i = 0;
                     let matrices = [];
                     //formando objeto, únicamente estructura, faltandole las notas

@@ -1,1 +1,26 @@
-<p>grades-table works!</p>
+<button mat-raised-button color="accent" (click)="downloadReport(dataSource.data)"><mat-icon>download</mat-icon> Grupal</button>
+<table mat-table [dataSource]="dataSource.data" class="mat-elevation-z2">
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef><b>ID</b></th>
+        <th mat-cell *matCellDef="let element">{{element.id}}</th>
+    </ng-container>
+    
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef><b>Nombre</b></th>
+        <th mat-cell *matCellDef="let element">{{element.name}}</th>
+    </ng-container>
+    <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef><b>Nota Final</b></th>
+        <th mat-cell *matCellDef="let element" [class]="element.total > 3 ? 'success' : 'wrong'">
+            {{element.total}}
+        </th>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef><b>Acciones</b></th>
+        <th mat-cell *matCellDef="let element">
+            <button mat-raised-button color="warn" (click)="downloadReport(element)"><mat-icon>download</mat-icon></button>
+        </th>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="visibleFields"></tr>
+    <tr mat-row *matRowDef="let row; columns: visibleFields;" class="mat-cell"></tr>
+</table>
