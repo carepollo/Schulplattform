@@ -41,6 +41,7 @@ class ReportsController {
                 let currentYear = new Date().getFullYear();
                 let query = "";
                 var resultData = [];
+                //si es reporte del año en curso
                 if (currentYear == request.body.parameter) {
                     query = `SELECT notas.estudiante_corresponde AS studentId, CONCAT(personas.nombres_persona, " ", personas.apellidos_persona) AS fullname , materias.materia_grado as assignature , nota_p1 AS g1, nota_p2 AS g2, nota_p3 AS g3, nota_p4 AS g4, nota_final AS gf FROM notas
                             INNER JOIN personas ON notas.estudiante_corresponde = personas.id_persona
@@ -83,6 +84,7 @@ class ReportsController {
                     }
                 }
                 else {
+                    //si es reporte de un año pasado
                     query = "SELECT * FROM boletin";
                     const data = yield connection_1.default.query(query);
                     if (data.length < 1) {

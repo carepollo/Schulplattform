@@ -1,18 +1,33 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportsService } from 'src/app/services/reports.service';
 
+export interface GradeSummary {
+  name: string;
+  id: number;
+  data?: any;
+}
+
 @Component({
   selector: 'grades-table',
   templateUrl: './grades-table.component.html',
-  styleUrls: ['./grades-table.component.css']
+  styleUrls: ['./grades-table.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: "0px", minHeight: "0"})),
+      state('expanded', style({height: "*"})),
+      transition('expanded <=> collapsed', animate("225ms cubic-bezier(0.4,0.0,.2,1)"))
+    ])
+  ]
 })
 export class GradesTableComponent implements OnInit {
 
   @Input() dataSource: any = {}
 
   public visibleFields = ["id", "name", "total", "actions"]
+  public expandedElement: any | null
   
   constructor(
     private reportsService:ReportsService,
@@ -24,7 +39,6 @@ export class GradesTableComponent implements OnInit {
       success => {
         if(success.status == 200) {
           this.dataSource.data = success.message
-          console.log(this.dataSource)
         }
         else{
           this.notifer.open(success.message, "OK", {duration:3000})

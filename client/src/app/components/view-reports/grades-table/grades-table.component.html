@@ -1,10 +1,11 @@
 <button mat-raised-button color="accent" (click)="downloadReport(dataSource.data)"><mat-icon>download</mat-icon> Grupal</button>
-<table mat-table [dataSource]="dataSource.data" class="mat-elevation-z2">
+
+<table mat-table [dataSource]="dataSource.data" class="mat-elevation-z2 summarizeTable" multiTemplateDataRows>
+
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef><b>ID</b></th>
-        <th mat-cell *matCellDef="let element">{{element.id}}</th>
+        <th mat-cell *matCellDef="let element"> {{element.id}}</th>
     </ng-container>
-    
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef><b>Nombre</b></th>
         <th mat-cell *matCellDef="let element">{{element.name}}</th>
@@ -21,6 +22,29 @@
             <button mat-raised-button color="warn" (click)="downloadReport(element)"><mat-icon>download</mat-icon></button>
         </th>
     </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="visibleFields.length">
+            <div class="elementDetail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                <mat-list *ngFor="let grade of element.data" class="detailedList">
+                    <mat-list-item><b>{{grade.assignature}}</b></mat-list-item>
+                    <mat-divider></mat-divider>
+                    <mat-list-item>{{grade.g1}}</mat-list-item>
+                    <mat-list-item>{{grade.g2}}</mat-list-item>
+                    <mat-list-item>{{grade.g3}}</mat-list-item>
+                    <mat-list-item>{{grade.g4}}</mat-list-item>
+                    <mat-list-item [class]="grade.gf > 3 ? 'success' : 'wrong'">{{grade.gf}}</mat-list-item>
+                </mat-list>
+            </div>
+        </td>
+    </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="visibleFields"></tr>
-    <tr mat-row *matRowDef="let row; columns: visibleFields;" class="mat-cell"></tr>
+    <tr mat-row *matRowDef="let element; columns: visibleFields;"
+        class="mat-cell element-row"
+        [class.element-row]="expandedElement === element"
+        (click)="expandedElement = expandedElement === element ? null : element"
+    >
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detailRow"></tr>
 </table>
