@@ -1,16 +1,15 @@
 import {json, query, Request, Response} from 'express';
 import link_db from '../connection';
 import Utilities from '../Utilities';
+import PdfPrinter from 'pdfmake';
 
 class ReportsController {
 
-    public async getList(request:Request, response: Response) {
+    public async getReport(request:Request, response: Response) {
         try {
             // const data = await link_db.query(``)
-            response.json({
-                status: 200,
-                mesage: "sis"
-            })
+            response.json(request.body)
+            console.log(PdfPrinter)
         }
         catch (error) {
             console.log(error)

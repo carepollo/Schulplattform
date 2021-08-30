@@ -10,7 +10,7 @@ class ReportsRoutes {
     config() {
         this.router.post('/graphBehaviour', reports_controller_1.reportsController.getGraphs);
         this.router.post('/gradesTable', reports_controller_1.reportsController.getFullTable);
-        // this.router.post('/studentsList', reportsController.getList)
+        this.router.post('/getReport', reports_controller_1.reportsController.getReport);
     }
 }
 const reportsRoutes = new ReportsRoutes();

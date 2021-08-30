@@ -15,15 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.reportsController = void 0;
 const connection_1 = __importDefault(require("../connection"));
 const Utilities_1 = __importDefault(require("../Utilities"));
+const pdfmake_1 = __importDefault(require("pdfmake"));
 class ReportsController {
-    getList(request, response) {
+    getReport(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // const data = await link_db.query(``)
-                response.json({
-                    status: 200,
-                    mesage: "sis"
-                });
+                response.json(request.body);
+                console.log(pdfmake_1.default);
             }
             catch (error) {
                 console.log(error);
