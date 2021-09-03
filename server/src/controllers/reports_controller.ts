@@ -1,21 +1,32 @@
 import {json, query, Request, Response} from 'express';
 import link_db from '../connection';
 import Utilities from '../Utilities';
-import PdfPrinter from 'pdfmake';
 
 class ReportsController {
 
     public async getReport(request:Request, response: Response) {
         try {
-            // const data = await link_db.query(``)
-            response.json(request.body)
-            console.log(PdfPrinter)
+            let currentYear:number = new Date().getFullYear()
+            let query:string = ""
+            let resultData = {}
+
+            if (currentYear == request.body.parameter) {
+                // const data = await link_db.query(query)
+            }
+            else {
+                // const data = await link_db.query(query)
+            }
+
+            response.json({
+                status: 200,
+                message: "true"
+            })
         }
         catch (error) {
             console.log(error)
             response.json({
                 status: 500,
-                message: "Ha habido un error trayendo la tabla"
+                message: "Ha habido un error generando el archivo"
             })
         }
     }

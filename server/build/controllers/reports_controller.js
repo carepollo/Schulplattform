@@ -15,20 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.reportsController = void 0;
 const connection_1 = __importDefault(require("../connection"));
 const Utilities_1 = __importDefault(require("../Utilities"));
-const pdfmake_1 = __importDefault(require("pdfmake"));
 class ReportsController {
     getReport(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // const data = await link_db.query(``)
-                response.json(request.body);
-                console.log(pdfmake_1.default);
+                response.json({
+                    status: 200,
+                    message: "true"
+                });
             }
             catch (error) {
                 console.log(error);
                 response.json({
                     status: 500,
-                    message: "Ha habido un error trayendo la tabla"
+                    message: "Ha habido un error generando el archivo"
                 });
             }
         });
