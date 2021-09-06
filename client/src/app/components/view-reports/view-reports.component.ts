@@ -40,5 +40,9 @@ export class ViewReportsComponent implements OnInit {
     )
   }
 
+  defineReport(type:string):void {
+    this.currentReport = type
+  }
+
 
 }

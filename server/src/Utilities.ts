@@ -16,4 +16,21 @@ export default class Utilities {
         return list
     }
 
+    static getPerformance(grade:number):string {
+        // Método para tener el adjetivo según la nota
+        
+        if (grade > 4.5) {
+            return "Superior"
+        }
+        else if (grade >= 4.0) {
+            return "Alto"
+        }
+        else if (grade >= 3.0) {
+            return "Básico"
+        }
+        else {
+            return "Bajo"
+        }
+    }
+
 }

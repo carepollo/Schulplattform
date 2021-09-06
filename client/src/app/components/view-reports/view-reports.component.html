@@ -4,27 +4,30 @@
         <mat-card-subtitle>Escoja el grupo y el tipo de reporte</mat-card-subtitle>
     </mat-card-header>
 
-    <mat-card-content> 
-        <mat-form-field appearance="outline">
-            <mat-label>Grupo</mat-label>
-            <mat-select [(ngModel)]="reportData.target" name="reportTarget">
-                <mat-option *ngFor="let option of groupsList" [value]="option.value">{{option.label}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Tipo de reporte</mat-label>
-            <mat-select [(ngModel)]="reportData.method" name="reportType">
-                <mat-option value="graphBehaviour">Gráficas por desempeño</mat-option>
-                <mat-option value="gradesTable">Reporte de notas por grupo</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Periodo</mat-label>
-            <input matInput [(ngModel)]="reportData.parameter" name="reportParameter" placeholder="Digite el año que consultará" type="number" min="0" max="2999">
-        </mat-form-field>
+    <mat-card-content>
+        <div class="reportForm">
+            <mat-form-field appearance="outline">
+                <mat-label>Grupo</mat-label>
+                <mat-select [(ngModel)]="reportData.target" name="reportTarget">
+                    <mat-option *ngFor="let option of groupsList" [value]="option.value">{{option.label}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo de reporte</mat-label>
+                <mat-select [(ngModel)]="reportData.method" name="reportType">
+                    <mat-option value="graphBehaviour">Gráficas por desempeño</mat-option>
+                    <mat-option value="gradesTable">Reporte de notas por grupo</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Periodo</mat-label>
+                <input matInput [(ngModel)]="reportData.parameter" name="reportParameter" placeholder="Digite el año que consultará" type="number" min="0" max="2999">
+            </mat-form-field>
+        </div>
+        <button mat-raised-button color="accent" (click)="defineReport(reportData.method)">Generar</button>
 
-        <div #reportCanvas>
-            <div [ngSwitch]="reportData.method">
+        <div class="reportCanvas">
+            <div [ngSwitch]="currentReport">
                 <grades-table *ngSwitchCase="'gradesTable'" [dataSource]="reportData"></grades-table>
                 <graph-behaviour *ngSwitchCase="'graphBehaviour'" [dataSource]="reportData"></graph-behaviour>
                 <div *ngSwitchDefault></div>

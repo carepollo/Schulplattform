@@ -3,6 +3,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportsService } from 'src/app/services/reports.service';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export interface GradeSummary {
   name: string;
@@ -58,7 +61,22 @@ export class GradesTableComponent implements OnInit {
   }
 
   downloadReport(data:any):void {
-    console.log(data)
+    let requestData:any = {}
+    if (data.parameter != undefined) {
+      requestData.person = "*"
+      requestData.period = data.parameter
+      requestData.group = data.target
+    }
+    else {
+      requestData.person = data.id
+      requestData.period = this.dataSource.parameter
+    }
+    console.log(requestData)
+  }
+
+  setPdf(datasource:any):void {
+    const documentDefinition = { content: 'This is an sample PDF printed with pdfMake' };
+    pdfMake.createPdf(documentDefinition).open();
   }
 
 }

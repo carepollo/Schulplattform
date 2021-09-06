@@ -1,4 +1,4 @@
-<button mat-raised-button color="accent" (click)="downloadReport(dataSource.data)"><mat-icon>download</mat-icon> Grupal</button>
+<button mat-raised-button color="accent" (click)="downloadReport(dataSource)"><mat-icon>download</mat-icon> Grupal</button>
 
 <table mat-table [dataSource]="dataSource.data" class="mat-elevation-z2 summarizeTable" multiTemplateDataRows>
 
@@ -19,7 +19,9 @@
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef><b>Acciones</b></th>
         <th mat-cell *matCellDef="let element">
-            <button mat-raised-button color="warn" (click)="downloadReport(element)"><mat-icon>download</mat-icon></button>
+            <button mat-raised-button color="warn" (click)="downloadReport(element)">
+                <mat-icon>download</mat-icon>
+            </button>
         </th>
     </ng-container>
 

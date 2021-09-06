@@ -20,6 +20,7 @@ import { ViewElectionsComponent } from './components/view-elections/view-electio
 import { ObservationsForm } from './components/view-academic/view-academic.component';
 import { GradesTableComponent } from './components/view-reports/grades-table/grades-table.component';
 import { GraphBehaviourComponent } from './components/view-reports/graph-behaviour/graph-behaviour.component';
+import { GeneratePdfPipe } from './procedures/generate-pdf.pipe';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { GraphBehaviourComponent } from './components/view-reports/graph-behavio
     ViewElectionsComponent,
     ObservationsForm,
     GradesTableComponent,
-    GraphBehaviourComponent
+    GraphBehaviourComponent,
+    GeneratePdfPipe
   ],
   imports: [
     BrowserModule,
