@@ -53,7 +53,7 @@ class ReportsController {
                             "assignatures": yield connection_1.default.query(`SELECT 
                             (SELECT materia_grado FROM dep_grados_materia WHERE id = notas.materia_corresponde) AS assignatureName,
                             (SELECT CONCAT(nombres_persona, " ", apellidos_persona) FROM personas WHERE id_persona = notas.dictado_por) AS teacherName,
-                            logro as conclusion,
+                            (SELECT descripcion FROM logros WHERE id = notas.logro) as conclusion,
                             nota_p1 as g1, nota_p2 as g2, nota_p3 as g3, nota_p4 as g4, nota_final as gf,
                             CASE
                                 WHEN nota_final > 4.5 THEN "Superior"
@@ -97,7 +97,7 @@ class ReportsController {
                             "assignatures": yield connection_1.default.query(`SELECT 
                             (SELECT materia_grado FROM dep_grados_materia WHERE id = notas.materia_corresponde) AS assignatureName,
                             (SELECT CONCAT(nombres_persona, " ", apellidos_persona) FROM personas WHERE id_persona = notas.dictado_por) AS teacherName,
-                            logro as conclusion,
+                            (SELECT descripcion FROM logros WHERE id = notas.logro) as conclusion,
                             nota_p1 as g1, nota_p2 as g2, nota_p3 as g3, nota_p4 as g4, nota_final as gf,
                             CASE
                                 WHEN nota_final > 4.5 THEN "Superior"

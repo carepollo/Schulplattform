@@ -3,9 +3,11 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportsService } from 'src/app/services/reports.service';
-import pdfMake from 'pdfmake/build/pdfmake';
-import pdfFonts from 'pdfmake/build/vfs_fonts';
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+
 
 export interface GradeSummary {
   name: string;
@@ -71,12 +73,30 @@ export class GradesTableComponent implements OnInit {
       requestData.person = data.id
       requestData.period = this.dataSource.parameter
     }
-    console.log(requestData)
-  }
-
-  setPdf(datasource:any):void {
-    const documentDefinition = { content: 'This is an sample PDF printed with pdfMake' };
-    pdfMake.createPdf(documentDefinition).open();
+    this.reportsService.getPdfData(requestData).subscribe(
+      response => {
+        if (response.status == 200) {
+          try {
+            this.notifer.open("Generando archivo", "OK", {duration: 1500})
+            const documentDefinition = this.reportsService.setPdfConfig(response.message)
+            
+            pdfMake.createPdf(documentDefinition).open();
+          }
+          catch (error) {
+            console.log(error)
+            this.notifer.open("No se pudo crear el archivo", "OK", {duration: 3000})
+          }
+          
+        }
+        else {
+          this.notifer.open(response.message, "OK", {duration: 3000})
+        }
+      },
+      error => {
+        console.log(error)
+        this.notifer.open("No se pudo obtener los datos", "OK", {duration: 3000})
+      }
+    )
   }
 
 }
