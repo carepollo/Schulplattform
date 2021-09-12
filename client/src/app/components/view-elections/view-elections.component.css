@@ -1,0 +1,59 @@
+.surveyConfig {
+    display: grid;
+    grid: auto / 40% 50%;
+    padding: 5px;
+}
+.surveyConfig div {
+    margin: 5px
+}
+
+.formField {
+    display:block;
+    max-width: 100%;
+}
+
+.surveysCard{
+    margin-top: 5px;
+}
+
+.optionsList {
+    display: grid;
+    grid: auto / 50% auto;
+    padding: 4px;
+    margin: 5px;
+}
+.optionsList mat-form-field {
+    min-width: 35vw;
+    max-width: 35vw;
+    width: 100%;
+}
+
+
+.yesVoted {
+    background-color: rgba(153, 205, 50, 0.60);
+}
+.notVoted {
+    background-color: rgba(255, 99, 71, 0.60);
+}
+
+/*responive*/
+@media screen and (max-width: 800px){
+
+    .surveyConfig {
+        grid: auto / auto;
+    }
+
+    .optionsList {
+        grid: auto / auto;
+        margin: 2px;
+        padding: 1px;
+    }
+    
+    .optionsList mat-form-field {
+        min-width: 60vw;
+        max-width: 60vw;
+        width: 100%;
+    }
+    
+
+}

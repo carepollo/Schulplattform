@@ -6,6 +6,7 @@ import indexRoutes from './routes/index_routes';
 import panelRoutes from './routes/panel_routes';
 import academicRoutes from './routes/academic_routes';
 import reportsRoutes from './routes/reports_routes';
+import electionsRoutes from './routes/reports_routes';
 
 
 class Server {
@@ -30,6 +31,7 @@ class Server {
         this.app.use('/panel', panelRoutes);
         this.app.use('/academic', academicRoutes);
         this.app.use('/reports', reportsRoutes);
+        this.app.use('/elections', electionsRoutes);
 
     }
     start():void {

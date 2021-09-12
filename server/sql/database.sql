@@ -117,6 +117,28 @@ CREATE TABLE boletin (
     aprobacion boolean not null
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
+create table encuestas (
+	id int primary key auto_increment,
+    titulo varchar(45)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
+create table dep_preguntas_encuestas(
+	id int primary key auto_increment,
+    encuesta int,
+    pregunta varchar(45),
+    foreign key (encuesta) references encuestas (id)
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
+create table dep_respuestas_preguntas(
+	id int primary key auto_increment,
+    encuesta int,
+    pregunta int,
+    respuesta varchar(255),
+    foreign key (encuesta) references encuestas,
+    foreign key (pregunta) references dep_preguntas_encuestas
+)  ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
+
 ALTER TABLE personas ADD COLUMN grupo_corresponde int null;
 ALTER TABLE personas ADD CONSTRAINT grupo_corresponde FOREIGN KEY (grupo_corresponde) REFERENCES grupos(id) ON UPDATE CASCADE ON DELETE CASCADE;
 

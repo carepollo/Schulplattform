@@ -71,7 +71,7 @@ class PanelController {
                 }
             }
             catch (error) {
-                unathourized.token = error;
+                unathourized.token = "error";
                 response.json(unathourized);
             }
         });

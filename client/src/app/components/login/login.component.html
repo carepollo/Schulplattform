@@ -10,7 +10,7 @@
               <input matInput type="text" [(ngModel)]="sentData.username" name="username" placeholder="Usuario" class="pb-2">
             </mat-form-field>
             <mat-form-field class="full-width-input">
-              <input matInput matInput [type]="visible ? 'password' : 'text'" [(ngModel)]="sentData.password" name="password" placeholder="Contraseña" class="pb-2">
+              <input matInput matInput [type]="visible ? 'password' : 'text'" [(ngModel)]="sentData.password" (keyup.enter)="tryLogin(sentData)" name="password" placeholder="Contraseña" class="pb-2">
               <button mat-icon-button matSuffix (click)="visible = !visible" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="visible">
                 <mat-icon>{{visible ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
