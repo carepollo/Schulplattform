@@ -10,7 +10,7 @@ const index_routes_1 = __importDefault(require("./routes/index_routes"));
 const panel_routes_1 = __importDefault(require("./routes/panel_routes"));
 const academic_routes_1 = __importDefault(require("./routes/academic_routes"));
 const reports_routes_1 = __importDefault(require("./routes/reports_routes"));
-const reports_routes_2 = __importDefault(require("./routes/reports_routes"));
+const elections_routes_1 = __importDefault(require("./routes/elections_routes"));
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -30,11 +30,11 @@ class Server {
         this.app.use('/panel', panel_routes_1.default);
         this.app.use('/academic', academic_routes_1.default);
         this.app.use('/reports', reports_routes_1.default);
-        this.app.use('/elections', reports_routes_2.default);
+        this.app.use('/elections', elections_routes_1.default);
     }
     start() {
         this.app.listen(this.port, () => {
-            console.log('Server working on port:' + this.port);
+            console.log('Server working on port ' + this.port);
         });
     }
 }

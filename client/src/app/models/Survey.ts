@@ -9,6 +9,7 @@ export interface Survey {
 }
 
 export interface SurveyOption {
+    id?:number;
     name: string;
     selected?: boolean;
     count?: number;

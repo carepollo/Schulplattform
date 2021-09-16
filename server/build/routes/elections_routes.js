@@ -8,8 +8,9 @@ class ElectionsRoutes {
         this.config();
     }
     config() {
-        this.router.get("/getAllSurveys", elections_controller_1.electionsController.getSurveys);
-        this.router.post("/postSurvey", elections_controller_1.electionsController.saveSurvey);
+        this.router.get("/getAllElections/:ident", elections_controller_1.electionsController.getSurveys);
+        this.router.post("/postElection", elections_controller_1.electionsController.saveSurvey);
+        this.router.post("/vote", elections_controller_1.electionsController.vote);
     }
 }
 const electionsRoutes = new ElectionsRoutes();

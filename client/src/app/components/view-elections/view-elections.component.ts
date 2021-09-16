@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { User } from 'src/app/models/User';
-import { Survey } from 'src/app/models/Survey';
+import { Survey, SurveyOption } from 'src/app/models/Survey';
 
 import { ElectionsService } from 'src/app/services/elections.service';
 import * as moment from 'moment';
@@ -19,9 +19,10 @@ export class ViewElectionsComponent implements OnInit {
     title: "",
     dateStart: moment(new Date()).format("YYYY-MM-DD"),
     dateEnd: "",
+    description: "",
     options: [{
       name: ""
-    }]
+    }],
   }
 
   public panelOpenState = false;
@@ -32,7 +33,14 @@ export class ViewElectionsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.electionsService.getSurveys().subscribe(
+    if (this.userdata.person.id_person != undefined) {
+      this.listSurveys(this.userdata.person.id_person);
+    }
+  }
+  
+  //todo el proceso de traer del servidor todas las encuestas
+  listSurveys(votant:number):void {
+    this.electionsService.getSurveys(votant).subscribe(
       success => {
         if (success.status == 200) {
           this.allSurveys = success.message
@@ -49,10 +57,12 @@ export class ViewElectionsComponent implements OnInit {
     )
   }
 
+  //añadir una opción a la encuesta
   addOption():void {
     this.currentSurvey.options.push({name: ""})
   }
 
+  //eliminar determinada opción de la encuesta
   removeOption(indicator:number):boolean {
     if (this.currentSurvey.options.length == 1) {
       this.notifier.open("Debe tener al menos una alternativa", "Aceptar")
@@ -64,15 +74,15 @@ export class ViewElectionsComponent implements OnInit {
     }    
   }
 
+  //crear encuesta
   createSurvey():boolean {
+    //asegurar que los formatos de fecha entren correctamente
+    this.currentSurvey.dateStart = moment(this.currentSurvey.dateStart).format("YYYY-MM-DD")
     this.currentSurvey.dateEnd = moment(this.currentSurvey.dateEnd).format("YYYY-MM-DD")
 
-    if (this.currentSurvey.title == "") {
-      this.notifier.open("La encuesta debe tener un título", "Aceptar")
-      return false
-    }
-    else if(this.currentSurvey.dateEnd == "") {
-      this.notifier.open("La encuesta debe tener una fecha de finalización")
+    //validación de formulario
+    if (new Date(this.currentSurvey.dateStart) >= new Date(this.currentSurvey.dateEnd)) {
+      this.notifier.open("La fecha de inicio debe ser inferior a la fecha de fin", "Aceptar")
       return false
     }
     else {
@@ -87,9 +97,7 @@ export class ViewElectionsComponent implements OnInit {
       this.electionsService.postSurvey(this.currentSurvey).subscribe(
         success => {
           if (success.status == 200) {
-            this.electionsService.getSurveys().subscribe(
-              success => {this.allSurveys = success.message}
-            )
+            this.listSurveys(this.userdata.person.id_person)
           }
           else {
             this.notifier.open("Se produjo un error actualizando interfaz", "OK", {duration:3000})
@@ -103,6 +111,29 @@ export class ViewElectionsComponent implements OnInit {
       return true
     }
 
+  }
+
+  //s es el índice de cuál encuesta afecta, o el índice de cuál opción voto
+  //método para registrar un voto, donde se manda la petición se manda, pero la actualización de la vista se hace en cliente
+  sendVote(s:number, o:number):void {
+    const voteParams = {
+      votant: this.userdata.person.id_person,
+      election: this.allSurveys[s].id,
+      option: this.allSurveys[s].options[o].id
+    }
+    this.electionsService.postVote(voteParams).subscribe(
+      success => {
+        this.allSurveys[s].state = false;
+        // this.allSurveys[s].options?[o].count += 1;
+        this.allSurveys[s].options[o].selected = true;
+        this.notifier.open(success.message, "OK", {duration:3000});
+      },
+      error => {
+        console.log(error);
+        this.notifier.open("No se pudo registrar su voto", "OK", {duration:3000});
+      }
+    )
+    
   }
 
 }

@@ -11,19 +11,19 @@
         <div>
             <mat-form-field appearance="outline" class="formField">
                 <mat-label>Titulo de la encuesta</mat-label>
-                <input matInput [(ngModel)]="currentSurvey.title" placeholder="Digite el título de la encuesta" name="title">
+                <input matInput [(ngModel)]="currentSurvey.title" placeholder="Digite el título de la encuesta" name="title" required minlength="3">
             </mat-form-field>
     
             <mat-form-field appearance="outline" class="formField">
                 <mat-label>Elija fecha de inicio</mat-label>
-                <input matInput [matDatepicker]="pickerStart" [(ngModel)]="currentSurvey.dateStart" name="dateStart">
+                <input matInput [matDatepicker]="pickerStart" [(ngModel)]="currentSurvey.dateStart" name="dateStart" required minlength="3">
                 <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
                 <mat-datepicker #pickerStart></mat-datepicker>
             </mat-form-field>
     
             <mat-form-field appearance="outline" class="formField">
                 <mat-label>Elija fecha de vencimiento</mat-label>
-                <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="currentSurvey.dateEnd" name="dateEnd">
+                <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="currentSurvey.dateEnd" name="dateEnd" required minlength="3">
                 <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                 <mat-datepicker #pickerEnd></mat-datepicker>
             </mat-form-field>
@@ -48,8 +48,19 @@
                 <mat-list-item *ngFor="let answer of currentSurvey.options;let i = index" class="optionsList">
                     <mat-form-field>
                         <mat-label>Digite la opción {{i + 1}}</mat-label>
-                        <input matInput class="inputOption" required [(ngModel)]="currentSurvey.options[i].name">
-                        <button matSuffix mat-icon-button aria-label="Eliminar" color="warn" (click)="removeOption(i)">
+                        <input
+                            matInput
+                            class="inputOption"
+                            required
+                            [(ngModel)]="currentSurvey.options[i].name"
+                        >
+                        <button
+                            matSuffix
+                            mat-icon-button
+                            aria-label="Eliminar"
+                            color="warn"
+                            (click)="removeOption(i)"
+                        >
                             <mat-icon>delete</mat-icon>
                         </button>
                     </mat-form-field>
@@ -95,11 +106,14 @@
                     <mat-divider></mat-divider>
                     <mat-selection-list [multiple]="false" [disabled]="!survey.state">
                         <mat-list-option
-                            *ngFor="let votes of survey.options"
+                            *ngFor="let votes of survey.options; let l = index"
                             [class]="votes.selected ? 'yesVoted' : 'notVoted'"
-                            [value]="votes.name"
+                            [value]="votes.id"
+                            (click)="sendVote(i, l)"
                         >
-                            <mat-icon mat-list-icon>how_to_vote</mat-icon>
+                            <mat-icon mat-list-icon>
+                                {{votes.selected ? 'how_to_vote' : 'block'}}
+                            </mat-icon>
                             <div mat-line>{{votes.name}}</div>
                             <div mat-line>Conteo de votos: {{votes.count}}</div>
                         </mat-list-option>
