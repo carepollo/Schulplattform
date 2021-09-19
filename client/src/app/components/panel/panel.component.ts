@@ -50,6 +50,15 @@ export class PanelComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getUserData(this.keytoken)
+    if(this.userlogged.type != "Coordinador") {
+      this.panelOptions.push(
+        {
+          icon: "dashboard",
+          content: "Administración",
+          componentName: "management"
+        }
+      )
+    }
   }
   ngOnChanges():void {
   }

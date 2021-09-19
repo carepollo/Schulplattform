@@ -24,7 +24,7 @@ class ElectionsController {
                 if (dataHeaders.length < 1) {
                     res.json({
                         status: 500,
-                        message: "No hay actualmente"
+                        message: "No hay votaciones actualmente"
                     });
                 }
                 else {
@@ -38,7 +38,7 @@ class ElectionsController {
                         closeDate.setDate(closeDate.getDate() + 1);
                         //comprobar si ha votado, de ser así, por cual opción
                         const questionsSurvey = yield connection_1.default.query(`SELECT id, pregunta AS name FROM preguntas_votacion WHERE encuesta = ${survey["id"]}`);
-                        const votedSurvey = yield connection_1.default.query(`SELECT opcion FROM dep_votaciones_personas AS a WHERE persona = ${ident} AND (SELECT encuesta FROM preguntas_votacion WHERE id = a.id) = ${survey["id"]}`);
+                        const votedSurvey = yield connection_1.default.query(`SELECT opcion FROM dep_votaciones_personas AS a WHERE a.persona = ${ident} AND (SELECT encuesta FROM preguntas_votacion WHERE id = a.opcion) = ${survey["id"]}`);
                         //determinar opción votada y conteo de votos
                         for (let l = 0; l < questionsSurvey.length; l++) {
                             const option = questionsSurvey[l];
@@ -52,7 +52,7 @@ class ElectionsController {
                             option["count"] = manyVotes[0]["conteoVotos"];
                         }
                         //disponible de votar o no, si ha votado o se venció la votacion
-                        const state = (now <= closeDate || !(votedSurvey.length > 0));
+                        const state = (now > closeDate || votedSurvey.length > 0);
                         survey.options = questionsSurvey;
                         survey.state = state;
                     }

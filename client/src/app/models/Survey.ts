@@ -4,13 +4,13 @@ export interface Survey {
     dateStart:any;
     dateEnd?:any;
     description?:string;
-    options: SurveyOption[];
-    state?: boolean;
+    options:SurveyOption[];
+    state?:boolean;
 }
 
 export interface SurveyOption {
     id?:number;
-    name: string;
-    selected?: boolean;
-    count?: number;
+    name:string;
+    selected?:boolean;
+    count?:number;
 }

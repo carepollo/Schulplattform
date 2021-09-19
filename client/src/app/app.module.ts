@@ -15,12 +15,12 @@ import { ViewProfileComponent } from './components/view-profile/view-profile.com
 import { ViewAcademicComponent } from './components/view-academic/view-academic.component';
 import { ViewReportsComponent } from './components/view-reports/view-reports.component';
 import { ViewElectionsComponent } from './components/view-elections/view-elections.component';
+import { ViewManagementComponent } from './components/view-management/view-management.component'
 
 //sub componentes
 import { ObservationsForm } from './components/view-academic/view-academic.component';
 import { GradesTableComponent } from './components/view-reports/grades-table/grades-table.component';
 import { GraphBehaviourComponent } from './components/view-reports/graph-behaviour/graph-behaviour.component';
-import { GeneratePdfPipe } from './procedures/generate-pdf.pipe';
 
 @NgModule({
   declarations: [
@@ -31,10 +31,10 @@ import { GeneratePdfPipe } from './procedures/generate-pdf.pipe';
     ViewAcademicComponent,
     ViewReportsComponent,
     ViewElectionsComponent,
+    ViewManagementComponent,
     ObservationsForm,
     GradesTableComponent,
     GraphBehaviourComponent,
-    GeneratePdfPipe
   ],
   imports: [
     BrowserModule,

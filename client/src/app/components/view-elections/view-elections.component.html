@@ -1,5 +1,4 @@
-<!-- atención, un condicional invertido temporalmente -->
-<mat-card *ngIf="userdata.person.type != 'Coordinador'">
+<mat-card *ngIf="userdata.person.type == 'Coordinador'">
 
     <mat-card-header>
         <mat-card-title>Crear Votación</mat-card-title>
@@ -81,30 +80,34 @@
 
     <mat-card-content>
         <mat-accordion>
-            <mat-expansion-panel *ngFor="let survey of allSurveys; let i = index" [expanded]="survey.state">
+            <mat-expansion-panel *ngFor="let survey of allSurveys; let i = index" [expanded]="!survey.state">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
                         {{survey.title}}
                     </mat-panel-title>
                     <mat-panel-description>
-                        Votación {{survey.state ? 'abierta' : 'cerrada'}}
+                        Votación {{survey.state ? 'cerrada' : 'abierta'}}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
     
                 <div>
+                    
                     <mat-chip-list>
-                        <mat-chip color="warn">
+                        <mat-chip>
                             Inicia: {{survey.dateStart}}
                         </mat-chip>
-                        <mat-chip color="warn">
+                        <mat-chip>
                             Vence: {{survey.dateEnd}}
+                        </mat-chip>
+                        <mat-chip [color]="survey.state ? 'warn' : 'primary'" selected>
+                            Estado: {{survey.state ? 'Cerrada' : 'Abierta'}}
                         </mat-chip>
                     </mat-chip-list>
                     <p>
                         {{survey.description}}
                     </p>
                     <mat-divider></mat-divider>
-                    <mat-selection-list [multiple]="false" [disabled]="!survey.state">
+                    <mat-selection-list [multiple]="false" [disabled]="survey.state">
                         <mat-list-option
                             *ngFor="let votes of survey.options; let l = index"
                             [class]="votes.selected ? 'yesVoted' : 'notVoted'"
