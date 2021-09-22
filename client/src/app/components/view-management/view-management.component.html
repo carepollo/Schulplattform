@@ -1,1 +1,97 @@
-<p>view-management works!</p>
+<mat-card>
+
+    <mat-card-header>
+        <mat-card-title>Administración</mat-card-title>
+        <mat-card-subtitle>Espacio para manipular información del sistema</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Usuarios">
+                <div>
+                    <h3><b>Datos de Usuario</b></h3>
+                    <div>
+                        <mat-form-field *ngFor="let input of userFormData" appearance="fill" class="formInput">
+                            <mat-label>{{input.label}}</mat-label>
+                            <input
+                                matInput
+                                required
+                                *ngIf="input.type == 'text'; else userSelect"
+                                (change)="assignValue($event, input.pointer)"
+                            >
+                            <ng-template #userSelect>
+                                <mat-select required (selectionChange)="assignValue($event, input.pointer)">
+                                    <mat-option *ngFor="let option of input.options" [value]="option.value">
+                                        {{option.label}}
+                                    </mat-option>
+                                </mat-select>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <h3><b>Datos Personales</b></h3>
+                    <div>
+                        <mat-form-field *ngFor="let input of personFormData" appearance="outline" class="formInput">
+                            <mat-label>{{input.label}}</mat-label>
+                            <input
+                                matInput
+                                required
+                                *ngIf="input.type == 'text'; else selectCase"
+                                (change)="assignValue($event, input.pointer, 'person')"
+                            >
+                            <ng-template #selectCase>
+                                <mat-select required (selectionChange)="assignValue($event, input.pointer, 'person')">
+                                    <mat-option *ngFor="let option of input.options" [value]="option.value">
+                                        {{option.label}}
+                                    </mat-option>
+                                </mat-select>
+                            </ng-template>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <button 
+                            mat-raised-button
+                            color="accent"
+                            (click)="postUser('create')"
+                        >
+                            Guardar
+                        </button>
+                        <button
+                            mat-raised-button
+                            color="warn"
+                            (click)="postUser('update')"
+                        >
+                            Actualizar
+                        </button>
+                        <button
+                            mat-raised-button
+                            (click)="cleanUserForm()"
+                        >
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div>
+                    <h3><b>Lista de Usuarios</b></h3>
+                    <div class="mat-elevation-z2">
+                        <!-- <table mat-table [dataSource]="currentUsers"></table>
+                        <mat-paginator
+                            [pageSizeOptions]="[10,20,50]"
+                            showFirstLastButton
+                            aria-label="Seleccione la cantidad de registros para ver"
+                        >
+                        </mat-paginator> -->
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Grados">
+                interfaz para crear y manipular grados y grupos
+            </mat-tab>
+            <mat-tab label="Participación">
+                interfaz para agregar gente a grupos
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+
+</mat-card>

@@ -20,4 +20,5 @@ export interface Person {
     scheme?: string;
     assigned_user?: number;
     assigned_group?: number;
+    type?:string;
 }

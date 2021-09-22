@@ -50,6 +50,8 @@ export class PanelComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.getUserData(this.keytoken)
+
+    //ATENCIÓN, CONDICIONAL INVERTIDO DURANTE DESARROLLO PARA LOS PERMISOS
     if(this.userlogged.type != "Coordinador") {
       this.panelOptions.push(
         {

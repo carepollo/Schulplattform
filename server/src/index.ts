@@ -7,6 +7,7 @@ import panelRoutes from './routes/panel_routes';
 import academicRoutes from './routes/academic_routes';
 import reportsRoutes from './routes/reports_routes';
 import electionsRoutes from './routes/elections_routes';
+import managementRoutes from './routes/management_routes';
 
 
 class Server {
@@ -32,6 +33,7 @@ class Server {
         this.app.use('/academic', academicRoutes);
         this.app.use('/reports', reportsRoutes);
         this.app.use('/elections', electionsRoutes);
+        this.app.use('/management', managementRoutes);
     }
     start():void {
         this.app.listen(this.port, () => {

@@ -20,7 +20,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const materialComponents = [
   MatGridListModule,
@@ -42,7 +42,8 @@ const materialComponents = [
   MatTreeModule,
   MatDatepickerModule,
   MatMomentDateModule,
-  MatChipsModule
+  MatChipsModule,
+  MatPaginatorModule
 ];
 
 @NgModule({

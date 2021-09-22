@@ -1,0 +1,11 @@
+.formInput {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+@media screen and (max-width: 400px){
+    .formInput {
+        min-width: 100%;
+        margin: 0rem;
+    }
+}

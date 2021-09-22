@@ -83,7 +83,7 @@
             <mat-expansion-panel *ngFor="let survey of allSurveys; let i = index" [expanded]="!survey.state">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                        {{survey.title}}
+                        <b>{{survey.title}}</b>
                     </mat-panel-title>
                     <mat-panel-description>
                         Votación {{survey.state ? 'cerrada' : 'abierta'}}
