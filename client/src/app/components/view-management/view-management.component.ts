@@ -46,6 +46,10 @@ export class ViewManagementComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.managementService.listPersons().subscribe(
+      response => {this.currentUsers = response},
+      error => {this.notifier.open("Error", "Aceptar")}
+    )
     this.panelService.getOptionList('departamentos', 0).subscribe(
       response => {
         this.personFormData[4].options = response
@@ -59,40 +63,58 @@ export class ViewManagementComponent implements OnInit, AfterViewInit {
     this.usersTable.paginator = this.paginator;
   }
 
-  //para asignar los valores de los campos a su propiedad correspondiente del objeto
-  assignValue(input:any, property:string | undefined, fatherProperty:string = ""):void {
-    if (property != undefined) {
-      try {
-        if (fatherProperty != "") {
-          this.setUpUser[fatherProperty][property] = input.target.value
+  //actualizar lista de municipios
+  getCity(target:number, origin:string):void {
+    this.panelService.getOptionList("municipios", target).subscribe(
+      response => {
+        if (origin == "zone_expedition") {
+          this.personFormData[5].options = response
         }
-        else {
-          this.setUpUser[property] = input.target.value
-        }        
-      }
-      catch(error) {
-        if (fatherProperty != "") {
-          this.setUpUser[fatherProperty][property] = input.value
+        else if (origin == "zone_lives") {
+          this.personFormData[11].options = response
         }
-        else {
-          this.setUpUser[property] = input.value
-        }        
+      },
+      error => {
+        console.warn(error);
+        this.notifier.open("Error al traer los datos", "Aceptar");
       }
-    }
+    )
+  }
+
+  //obtener los datos de una sola persona y usuario en caso de tenerlo
+  getUser(id:number) {
+    this.managementService.getPersonData(id).subscribe(
+      response => {
+        this.setUpUser = response.message;
+        console.log(this.setUpUser);
+      },
+      error => {this.notifier.open("Error", "Aceptar")}
+    )
   }
 
   //salvar en base de datos los campos del formulario, sirve para actualizar y crear
-  postUser(method:string):void {
-    if (method == "update") {
-      this.managementService.saveUserData()
-    }
-    else {
-      this.managementService.updateUserData()
-    }
+  postUser():void {
+    console.log(JSON.stringify(this.setUpUser));
+    this.managementService.saveUserData(this.setUpUser).subscribe(
+      success =>{
+        console.log(success);
+        this.notifier.open(success.message, "Atención", {duration:3000})
+      },
+      error => {
+        console.log(error)
+      }
+    );
+    this.cleanUserForm();
   }
 
   //vaciar los campos del formulario
   cleanUserForm():void {
-    console.log(this.setUpUser)
+    this.setUpUser = {
+      id:0,
+      username: "",
+      password: "",
+      type: "",
+      person: {}
+    }
   }
 }

@@ -13,19 +13,24 @@
                     <div>
                         <mat-form-field *ngFor="let input of userFormData" appearance="fill" class="formInput">
                             <mat-label>{{input.label}}</mat-label>
-                            <input
-                                matInput
-                                required
-                                *ngIf="input.type == 'text'; else userSelect"
-                                (change)="assignValue($event, input.pointer)"
-                            >
-                            <ng-template #userSelect>
-                                <mat-select required (selectionChange)="assignValue($event, input.pointer)">
-                                    <mat-option *ngFor="let option of input.options" [value]="option.value">
-                                        {{option.label}}
-                                    </mat-option>
-                                </mat-select>
-                            </ng-template>
+                            <div *ngIf="input.pointer != undefined">
+                                <input
+                                    matInput
+                                    required
+                                    *ngIf="input.type == 'text'; else userSelect"
+                                    [(ngModel)]="setUpUser[input.pointer]"
+                                >
+                                <ng-template #userSelect>
+                                    <mat-select
+                                        required
+                                        [(ngModel)]="setUpUser[input.pointer]"
+                                    >
+                                        <mat-option *ngFor="let option of input.options" [value]="option.value">
+                                            {{option.label}}
+                                        </mat-option>
+                                    </mat-select>
+                                </ng-template>
+                            </div>
                         </mat-form-field>
                     </div>
                     <mat-divider></mat-divider>
@@ -33,35 +38,34 @@
                     <div>
                         <mat-form-field *ngFor="let input of personFormData" appearance="outline" class="formInput">
                             <mat-label>{{input.label}}</mat-label>
-                            <input
-                                matInput
-                                required
-                                *ngIf="input.type == 'text'; else selectCase"
-                                (change)="assignValue($event, input.pointer, 'person')"
-                            >
-                            <ng-template #selectCase>
-                                <mat-select required (selectionChange)="assignValue($event, input.pointer, 'person')">
-                                    <mat-option *ngFor="let option of input.options" [value]="option.value">
-                                        {{option.label}}
-                                    </mat-option>
-                                </mat-select>
-                            </ng-template>
+                            <div *ngIf="input.pointer != undefined">
+                                <input
+                                    matInput
+                                    required
+                                    *ngIf="input.type == 'text'; else selectCase"
+                                    [(ngModel)]="setUpUser['person'][input.pointer]"
+                                >
+                                <ng-template #selectCase>
+                                    <mat-select
+                                        required
+                                        [(ngModel)]="setUpUser['person'][input.pointer]"
+                                        (selectionChange)="getCity($event.value, input.pointer)"
+                                    >
+                                        <mat-option *ngFor="let option of input.options" [value]="option.value">
+                                            {{option.label}}
+                                        </mat-option>
+                                    </mat-select>
+                                </ng-template>
+                            </div>
                         </mat-form-field>
                     </div>
                     <div>
                         <button 
                             mat-raised-button
                             color="accent"
-                            (click)="postUser('create')"
+                            (click)="postUser()"
                         >
                             Guardar
-                        </button>
-                        <button
-                            mat-raised-button
-                            color="warn"
-                            (click)="postUser('update')"
-                        >
-                            Actualizar
                         </button>
                         <button
                             mat-raised-button
@@ -74,23 +78,50 @@
                 <mat-divider></mat-divider>
                 <div>
                     <h3><b>Lista de Usuarios</b></h3>
-                    <div class="mat-elevation-z2">
-                        <!-- <table mat-table [dataSource]="currentUsers"></table>
+                    <div class="mat-elevation-z2 usersTable">
+                        <table mat-table [dataSource]="currentUsers">
+                            <ng-container matColumnDef="ID">
+                                <th mat-header-cell *matHeaderCellDef> ID </th>
+                                <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Nombre Completo">
+                                <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
+                                <td mat-cell *matCellDef="let element"> {{element.fullname}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Tipo">
+                                <th mat-header-cell *matHeaderCellDef> ID </th>
+                                <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Acciones">
+                                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button
+                                        mat-raised-button
+                                        color="accent"
+                                        (click)="getUser(element.id)"
+                                    >
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+                            <tr mat-row *matRowDef="let myRowData; columns: displayColumns"></tr>
+                        </table>
                         <mat-paginator
                             [pageSizeOptions]="[10,20,50]"
                             showFirstLastButton
                             aria-label="Seleccione la cantidad de registros para ver"
                         >
-                        </mat-paginator> -->
+                        </mat-paginator>
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Grados">
+            <!-- <mat-tab label="Grados">
                 interfaz para crear y manipular grados y grupos
             </mat-tab>
             <mat-tab label="Participación">
                 interfaz para agregar gente a grupos
-            </mat-tab>
+            </mat-tab> -->
         </mat-tab-group>
     </mat-card-content>
 

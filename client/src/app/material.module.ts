@@ -21,6 +21,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const materialComponents = [
   MatGridListModule,
@@ -43,7 +44,8 @@ const materialComponents = [
   MatDatepickerModule,
   MatMomentDateModule,
   MatChipsModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatButtonToggleModule
 ];
 
 @NgModule({

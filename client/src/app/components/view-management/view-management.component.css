@@ -3,6 +3,10 @@
     margin-right: 0.5rem;
 }
 
+.usersTable{
+    display:grid;
+}
+
 @media screen and (max-width: 400px){
     .formInput {
         min-width: 100%;

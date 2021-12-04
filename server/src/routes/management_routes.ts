@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { managementController } from "../controllers/management_controller";
 
-class ElectionsRoutes {
+class ManagementRoutes {
     public router: Router = Router();
 
     constructor() {
@@ -9,8 +9,11 @@ class ElectionsRoutes {
     }
 
     config() {
-        this.router.get("/getAllElections/:ident", managementController.getPersonsList)
+        this.router.get("/getAllUsers", managementController.getPersonsList);
+        this.router.get("/getUser/:ident", managementController.getPersonInfo);
+        this.router.post("/handlePerson", managementController.handlePerson);
+
     }
 }
-const electionsRoutes = new ElectionsRoutes();
-export default electionsRoutes.router;
+const managementRoutes = new ManagementRoutes();
+export default managementRoutes.router;
